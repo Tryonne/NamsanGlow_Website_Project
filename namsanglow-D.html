@@ -1,0 +1,786 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rótulo · Início</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&amp;family=JetBrains+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F1F0EB;font-family:'Archivo',system-ui,sans-serif;color:#0E0E0E;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+#app[data-page="inicio"] .c{font-family:'Archivo','Arial Narrow',sans-serif;font-stretch:62%;font-weight:900;text-transform:uppercase;letter-spacing:-0.01em}
+#app[data-page="inicio"] .m{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:13px;text-transform:uppercase;letter-spacing:.04em}
+#app[data-page="inicio"] .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 28px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:.05em;cursor:pointer;border:2px solid #0E0E0E;box-sizing:border-box}
+#app[data-page="inicio"] .btn-ink{background:#0E0E0E;color:#F1F0EB}
+#app[data-page="inicio"] .btn-ink:hover{background:#D4FF3F;color:#0E0E0E}
+#app[data-page="inicio"] .btn-lime{background:#D4FF3F;color:#0E0E0E}
+#app[data-page="inicio"] .btn-lime:hover{background:#0E0E0E;color:#D4FF3F}
+#app[data-page="inicio"] .nv a{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 4px}
+#app[data-page="inicio"] .nv a:hover{background:#D4FF3F}
+#app[data-page="inicio"] .ic{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;border:2px solid #0E0E0E;color:#0E0E0E}
+#app[data-page="inicio"] .ic:hover{background:#D4FF3F}
+#app[data-page="inicio"] .row{display:grid;grid-template-columns:56px 80px minmax(110px,1fr) minmax(0,3fr) 110px 220px;gap:20px;align-items:center;min-height:92px;padding:0 16px;border-top:1px solid #0E0E0E;min-width:860px;box-sizing:border-box}
+#app[data-page="inicio"] .row:hover{background:#D4FF3F}
+#app[data-page="inicio"] .bn{font-weight:900;font-stretch:62%;text-transform:uppercase;line-height:.95}
+#app[data-page="inicio"] .bn:hover{color:#D4FF3F}
+#app[data-page="inicio"] input,#app[data-page="inicio"] textarea{font-family:'JetBrains Mono',monospace;font-size:15px;color:#0E0E0E;border:none;border-bottom:2px solid #0E0E0E;background:transparent;padding:10px 0;min-height:48px;box-sizing:border-box;width:100%;border-radius:0}
+#app[data-page="inicio"] input:focus,#app[data-page="inicio"] textarea:focus{outline:none;background:#D4FF3F}
+#app[data-page="inicio"] label{display:block;margin-bottom:2px}
+#app[data-page="loja"] .c{font-family:'Archivo','Arial Narrow',sans-serif;font-stretch:62%;font-weight:900;text-transform:uppercase;letter-spacing:-0.01em}
+#app[data-page="loja"] .m{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:13px;text-transform:uppercase;letter-spacing:.04em}
+#app[data-page="loja"] .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 28px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:.05em;cursor:pointer;border:2px solid #0E0E0E;box-sizing:border-box}
+#app[data-page="loja"] .btn-ink{background:#0E0E0E;color:#F1F0EB}
+#app[data-page="loja"] .btn-ink:hover{background:#D4FF3F;color:#0E0E0E}
+#app[data-page="loja"] .nv a{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 4px}
+#app[data-page="loja"] .nv a:hover{background:#D4FF3F}
+#app[data-page="loja"] .ic{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;border:2px solid #0E0E0E;color:#0E0E0E}
+#app[data-page="loja"] .ic:hover{background:#D4FF3F}
+#app[data-page="loja"] .row{display:grid;grid-template-columns:56px 80px minmax(110px,1fr) minmax(0,3fr) 110px 200px;gap:20px;align-items:center;min-height:92px;padding:0 16px;border-top:1px solid #0E0E0E;min-width:840px;box-sizing:border-box}
+#app[data-page="loja"] .row:hover{background:#D4FF3F}
+#app[data-page="loja"] .rail a{display:flex;align-items:center;gap:14px;min-height:44px;border-top:1px solid #0E0E0E;padding:0 6px}
+#app[data-page="loja"] .rail a:hover{background:#D4FF3F}
+#app[data-page="loja"] select,#app[data-page="loja"] input[type=range]{font-family:'JetBrains Mono',monospace;font-size:13px;text-transform:uppercase;color:#0E0E0E}
+#app[data-page="loja"] select{border:2px solid #0E0E0E;background:#F1F0EB;padding:0 14px;min-height:44px;border-radius:0}
+#app[data-page="produto"] .c{font-family:'Archivo','Arial Narrow',sans-serif;font-stretch:62%;font-weight:900;text-transform:uppercase;letter-spacing:-0.01em}
+#app[data-page="produto"] .m{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:13px;text-transform:uppercase;letter-spacing:.04em}
+#app[data-page="produto"] .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:60px;padding:0 28px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:15px;text-transform:uppercase;letter-spacing:.05em;cursor:pointer;border:2px solid #0E0E0E;box-sizing:border-box}
+#app[data-page="produto"] .btn-ink{background:#0E0E0E;color:#F1F0EB}
+#app[data-page="produto"] .btn-ink:hover{background:#D4FF3F;color:#0E0E0E}
+#app[data-page="produto"] .nv a{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 4px}
+#app[data-page="produto"] .nv a:hover{background:#D4FF3F}
+#app[data-page="produto"] .ic{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;border:2px solid #0E0E0E;color:#0E0E0E}
+#app[data-page="produto"] .ic:hover{background:#D4FF3F}
+#app[data-page="produto"] .st{width:52px;height:60px;border:2px solid #0E0E0E;background:#F1F0EB;font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;cursor:pointer;color:#0E0E0E}
+#app[data-page="produto"] .st:hover{background:#D4FF3F}
+#app[data-page="produto"] .sp{display:grid;grid-template-columns:minmax(120px,1fr) 2fr;gap:16px;padding:12px 0;border-bottom:1px solid #0E0E0E;align-items:baseline}
+#app[data-page="produto"] .row{display:grid;grid-template-columns:56px 80px minmax(110px,1fr) minmax(0,3fr) 110px 200px;gap:20px;align-items:center;min-height:92px;padding:0 16px;border-top:1px solid #0E0E0E;min-width:840px;box-sizing:border-box}
+#app[data-page="produto"] .row:hover{background:#D4FF3F}
+#app[data-page="sobre"] .c{font-family:'Archivo','Arial Narrow',sans-serif;font-stretch:62%;font-weight:900;text-transform:uppercase;letter-spacing:-0.01em}
+#app[data-page="sobre"] .m{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:13px;text-transform:uppercase;letter-spacing:.04em}
+#app[data-page="sobre"] .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:56px;padding:0 28px;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:.05em;cursor:pointer;border:2px solid #0E0E0E;box-sizing:border-box}
+#app[data-page="sobre"] .btn-ink{background:#0E0E0E;color:#F1F0EB}
+#app[data-page="sobre"] .btn-ink:hover{background:#D4FF3F;color:#0E0E0E}
+#app[data-page="sobre"] .nv a{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 4px}
+#app[data-page="sobre"] .nv a:hover{background:#D4FF3F}
+#app[data-page="sobre"] .ic{width:44px;height:44px;display:inline-flex;align-items:center;justify-content:center;border:2px solid #0E0E0E;color:#0E0E0E}
+#app[data-page="sobre"] .ic:hover{background:#D4FF3F}
+#app[data-page="sobre"] .bl{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px;border-bottom:1px solid #0E0E0E;padding:0 8px}
+#app[data-page="sobre"] .bl:hover{background:#D4FF3F}
+#app[data-page="sobre"] input,#app[data-page="sobre"] textarea{font-family:'JetBrains Mono',monospace;font-size:15px;color:#0E0E0E;border:none;border-bottom:2px solid #0E0E0E;background:transparent;padding:10px 0;min-height:48px;box-sizing:border-box;width:100%;border-radius:0}
+#app[data-page="sobre"] input:focus,#app[data-page="sobre"] textarea:focus{outline:none;background:#D4FF3F}
+#app[data-page="sobre"] label{display:block;margin-bottom:2px}
+</style>
+</head>
+<body>
+<div id="app" data-page="inicio"></div>
+<template id="dc-tpl-inicio">
+
+<div style="background:#F1F0EB">
+
+<!-- Ticker -->
+<div class="m" style="background:#D4FF3F;border-bottom:2px solid #0E0E0E;min-height:40px;display:flex;align-items:center;justify-content:center;gap:8px 32px;flex-wrap:wrap;padding:8px 16px;box-sizing:border-box;font-weight:700;text-align:center">
+  <span>Código WELCOME10 = −10% no 1.º pedido</span><span>/</span><span>Envio grátis a partir de [VALOR] €</span><span>/</span><span>−15% em todas as máscaras faciais</span>
+</div>
+
+<!-- Cabeçalho -->
+<header style="border-bottom:2px solid #0E0E0E">
+  <div style="max-width:1360px;margin:0 auto;padding:0 clamp(16px,3vw,40px);min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;box-sizing:border-box">
+    <a href="#/inicio" style="display:flex;align-items:baseline;gap:12px"><span class="c" style="font-size:34px;line-height:1">Namsan Glow</span><span class="m" style="font-size:11px;color:#5F5F5A">Asian Skincare / Braga PT</span></a>
+    <nav class="nv m" style="display:flex;gap:20px;flex-wrap:wrap;font-weight:700"><a href="#/sobre/marcas"><span style="color:#5F5F5A">01</span>Marcas</a><a href="#/sobre"><span style="color:#5F5F5A">02</span>Sobre</a><a href="#/sobre/contactos"><span style="color:#5F5F5A">03</span>Contacto</a><a href="#/loja"><span style="color:#5F5F5A">04</span>Loja</a></nav>
+    <div style="display:flex;gap:8px;align-items:center">
+      <a class="ic" href="#/loja" aria-label="Procurar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg></a>
+      <a class="ic" href="https://wa.me/351966700740" aria-label="WhatsApp"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" aria-hidden="true"><path d="M4 20l1.3-4.2A8 8 0 1 1 8.4 19z"></path></svg></a>
+      <a class="ic" href="https://instagram.com/namsanglow_skincare" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="4"></rect><circle cx="12" cy="12" r="4"></circle></svg></a>
+      <a class="btn btn-ink" href="#/loja" style="min-height:44px;padding:0 16px">Carrinho (0)</a>
+    </div>
+  </div>
+</header>
+
+<!-- Hero -->
+<section style="max-width:1360px;margin:0 auto;padding:28px clamp(16px,3vw,40px) 56px;box-sizing:border-box;display:flex;flex-direction:column;gap:28px">
+  <div class="m" style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:#5F5F5A"><span>Nº 001 / Cuidados asiáticos com a pele</span><span>Fig. 01 — Capa</span></div>
+  <h1 class="c" style="margin:0;font-size:clamp(64px,12.4vw,196px);line-height:.84;text-wrap:balance">Descubra o poder dos cuidados <span style="background:#D4FF3F;padding:0 .08em">asiáticos</span> com a pele</h1>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:0;border-top:2px solid #0E0E0E;border-bottom:2px solid #0E0E0E">
+    <div style="padding:24px 24px 24px 0;display:flex;flex-direction:column;gap:20px;justify-content:space-between;border-right:1px solid #0E0E0E">
+      <span class="m" style="color:#5F5F5A">Descrição</span>
+      <p style="margin:0;font-size:20px;line-height:1.4;font-weight:500;max-width:360px">Liberte o potencial da sua pele com fórmulas requintadas.</p>
+      <div><a class="btn btn-ink" href="#/loja">Explore agora →</a></div>
+    </div>
+    <div style="padding:24px;display:flex;flex-direction:column;gap:6px;border-right:1px solid #0E0E0E">
+      <span class="m" style="color:#5F5F5A;margin-bottom:10px">Especificação</span>
+      <div class="m" style="display:flex;justify-content:space-between;border-bottom:1px solid #0E0E0E;padding:8px 0;font-size:14px"><span>Marcas</span><strong>14</strong></div>
+      <div class="m" style="display:flex;justify-content:space-between;border-bottom:1px solid #0E0E0E;padding:8px 0;font-size:14px"><span>Produtos</span><strong>173</strong></div>
+      <div class="m" style="display:flex;justify-content:space-between;border-bottom:1px solid #0E0E0E;padding:8px 0;font-size:14px"><span>Origem da loja</span><strong>Braga PT</strong></div>
+      <svg width="100%" height="48" viewBox="0 0 220 48" preserveAspectRatio="none" aria-hidden="true" style="margin-top:14px"><path d="M0 0h4v48H0zM8 0h2v48H8zM14 0h6v48h-6zM24 0h2v48h-2zM30 0h4v48h-4zM38 0h8v48h-8zM50 0h2v48h-2zM56 0h4v48h-4zM64 0h2v48h-2zM70 0h6v48h-6zM80 0h2v48h-2zM86 0h4v48h-4zM94 0h2v48h-2zM100 0h8v48h-8zM112 0h2v48h-2zM118 0h4v48h-4zM126 0h6v48h-6zM136 0h2v48h-2zM142 0h4v48h-4zM150 0h2v48h-2zM156 0h8v48h-8zM168 0h2v48h-2zM174 0h4v48h-4zM182 0h6v48h-6zM192 0h2v48h-2zM198 0h4v48h-4zM206 0h8v48h-8z" fill="#0E0E0E"></path></svg>
+    </div>
+    <div style="padding:24px 0 24px 24px;display:flex;align-items:center;justify-content:center;min-height:240px">
+      <a href="#/loja" style="width:200px;height:200px;border-radius:50%;background:#D4FF3F;border:2px solid #0E0E0E;transform:rotate(-10deg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center">
+        <span class="c" style="font-size:72px;line-height:.9">−10%</span><span class="m" style="font-weight:700;font-size:12px">1.º pedido</span><span class="m" style="font-weight:700;font-size:15px;border:2px dashed #0E0E0E;padding:2px 10px">WELCOME10</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Marcas -->
+<section id="marcas" style="background:#0E0E0E;color:#F1F0EB">
+  <div style="max-width:1360px;margin:0 auto;padding:36px clamp(16px,3vw,40px);box-sizing:border-box;display:flex;flex-direction:column;gap:18px">
+    <span class="m" style="color:#D4FF3F">Índice de marcas (14)</span>
+    <div style="display:flex;flex-wrap:wrap;gap:6px 22px;align-items:baseline">
+      <sc-for list="{{brands}}" as="b" hint-placeholder-count="14"><a class="bn" href="#/loja" style="font-size:clamp(28px,3.4vw,46px)">{{b}} <span style="color:#D4FF3F">/</span></a></sc-for>
+    </div>
+  </div>
+</section>
+
+<!-- Novidades -->
+<section id="novidades" style="max-width:1360px;margin:0 auto;padding:72px clamp(16px,3vw,40px) 0;box-sizing:border-box;display:flex;flex-direction:column;gap:24px">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap"><h2 class="c" style="margin:0;font-size:clamp(56px,8vw,120px);line-height:.85">Novidades <span style="color:#5F5F5A">(08)</span></h2><a class="m" href="#/loja" style="font-weight:700;border-bottom:2px solid #0E0E0E;min-height:44px;display:inline-flex;align-items:center">Ver todos os 173 produtos →</a></div>
+  <div style="overflow-x:auto;border-bottom:1px solid #0E0E0E">
+    <div class="m" style="display:grid;grid-template-columns:56px 80px minmax(110px,1fr) minmax(0,3fr) 110px 220px;gap:20px;padding:10px 16px;min-width:860px;box-sizing:border-box;color:#5F5F5A"><span>Nº</span><span>Foto</span><span>Marca</span><span>Produto</span><span>Preço</span><span></span></div>
+    <sc-for list="{{products}}" as="p" hint-placeholder-count="8">
+      <a class="row" href="#/produto">
+        <span class="m" style="font-weight:700">{{p.i}}</span>
+        <span style="width:72px;height:72px;border:1px solid #0E0E0E;background:#F1F0EB;display:flex;align-items:center;justify-content:center"><svg width="28" height="44" viewBox="0 0 28 44" fill="none" stroke="#0E0E0E" stroke-width="2" aria-hidden="true"><rect x="9" y="1" width="10" height="7" fill="#D4FF3F"></rect><rect x="4" y="8" width="20" height="35"></rect><rect x="8" y="20" width="12" height="12"></rect></svg></span>
+        <span class="m" style="font-weight:700">{{p.b}}</span>
+        <span style="font-size:19px;font-weight:600;line-height:1.25">{{p.n}}</span>
+        <span class="c" style="font-size:30px;line-height:1">{{p.p}}</span>
+        <span class="m" style="font-weight:700;text-align:right">Visualização rápida +</span>
+      </a>
+    </sc-for>
+  </div>
+</section>
+
+<!-- Coleção -->
+<section style="max-width:1360px;margin:0 auto;padding:72px clamp(16px,3vw,40px) 0;box-sizing:border-box;display:flex;flex-direction:column;gap:28px">
+  <div style="display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:flex-end"><h2 class="c" style="margin:0;font-size:clamp(48px,6.4vw,96px);line-height:.88">A coleção</h2><p style="margin:0;max-width:440px;font-size:18px;line-height:1.5">Delicie-se com a nossa coleção de produtos asiáticos requintados para cuidados com a pele.</p></div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));border:2px solid #0E0E0E">
+    <sc-for list="{{pillars}}" as="c" hint-placeholder-count="4">
+      <a href="#/loja" style="padding:24px;min-height:300px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;gap:24px;border-right:1px solid #0E0E0E;border-bottom:1px solid #0E0E0E;margin:0 -1px -1px 0">
+        <span class="m" style="font-weight:700">Nº {{c.n}}</span>
+        <div style="display:flex;flex-direction:column;gap:12px"><span class="c" style="font-size:44px;line-height:.9">{{c.t}}</span><span style="font-size:15px;line-height:1.45">{{c.d}}</span></div>
+      </a>
+    </sc-for>
+  </div>
+</section>
+
+<!-- Banner -->
+<section style="max-width:1360px;margin:0 auto;padding:72px clamp(16px,3vw,40px) 0;box-sizing:border-box">
+  <div style="position:relative;height:420px;border:2px solid #0E0E0E;background:#E4E3DC;display:flex;align-items:center;justify-content:center">
+    <div style="position:absolute;left:50%;top:0;bottom:0;width:1px;background:#0E0E0E;opacity:.25"></div>
+    <div style="position:absolute;top:50%;left:0;right:0;height:1px;background:#0E0E0E;opacity:.25"></div>
+    <div style="position:relative;width:140px;height:140px;border-radius:50%;background:#D4FF3F;border:2px solid #0E0E0E"></div>
+    <span class="m" style="position:absolute;left:16px;bottom:12px">Fig. 02 — Banner · substituir por foto</span>
+  </div>
+</section>
+
+<!-- Compromisso -->
+<section style="max-width:1360px;margin:0 auto;padding:72px clamp(16px,3vw,40px) 0;box-sizing:border-box;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:48px;align-items:start">
+  <h2 class="c" style="margin:0;font-size:clamp(52px,7vw,108px);line-height:.86">O nosso compromisso com os cuidados asiáticos com a pele</h2>
+  <div style="display:flex;flex-direction:column;gap:22px;padding-top:12px">
+    <span class="m" style="color:#5F5F5A">Declaração</span>
+    <p style="margin:0;font-size:22px;line-height:1.45;font-weight:500">Produtos de elevada qualidade, feitos com ingredientes tradicionais, em rotinas eficazes e luxuosas para uma pele saudável e radiante.</p>
+    <div><a class="btn btn-ink" href="#/sobre">Ler manifesto →</a></div>
+  </div>
+</section>
+
+<!-- Feedback -->
+<section style="max-width:1360px;margin:0 auto;padding:72px clamp(16px,3vw,40px) 0;box-sizing:border-box;display:flex;flex-direction:column;gap:20px">
+  <h2 class="c" style="margin:0;font-size:clamp(48px,6.4vw,96px);line-height:.88">Registo de feedback</h2>
+  <div style="border-top:2px solid #0E0E0E">
+    <sc-for list="{{reviews}}" as="r" hint-placeholder-count="3">
+      <figure style="margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr));gap:12px 32px;padding:28px 0;border-bottom:1px solid #0E0E0E;align-items:baseline">
+        <figcaption class="m" style="font-weight:700">[{{r.i}}] {{r.a}}</figcaption>
+        <blockquote style="margin:0;grid-column:span 2;font-size:clamp(22px,2.4vw,32px);font-weight:600;line-height:1.25;letter-spacing:-0.01em">“{{r.q}}”</blockquote>
+      </figure>
+    </sc-for>
+  </div>
+</section>
+
+<!-- Promoções -->
+<section style="max-width:1360px;margin:0 auto;padding:72px clamp(16px,3vw,40px) 0;box-sizing:border-box;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(320px,100%),1fr));gap:20px">
+  <div style="background:#D4FF3F;border:2px solid #0E0E0E;padding:28px;min-height:240px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;gap:20px"><span class="m" style="font-weight:700">Oferta exclusiva</span><div><div class="c" style="font-size:52px;line-height:.9">10% no primeiro pedido</div><div class="m" style="margin-top:12px;font-weight:700">Compras acima de 10 € · código WELCOME10</div></div></div>
+  <div style="border:2px solid #0E0E0E;padding:28px;min-height:240px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;gap:20px"><span class="m" style="font-weight:700">Envio grátis</span><div class="c" style="font-size:52px;line-height:.9">Acima de [VALOR] €</div></div>
+  <div style="background:#0E0E0E;color:#F1F0EB;border:2px solid #0E0E0E;padding:28px;min-height:240px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;gap:20px"><span class="m" style="font-weight:700;color:#D4FF3F">Oferta limitada</span><div class="c" style="font-size:52px;line-height:.9">15% em todas as máscaras faciais</div></div>
+</section>
+
+<!-- Contacto -->
+<section id="contactos" style="max-width:1360px;margin:0 auto;padding:72px clamp(16px,3vw,40px) 72px;box-sizing:border-box;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:48px">
+  <div style="display:flex;flex-direction:column;gap:24px">
+    <h2 class="c" style="margin:0;font-size:clamp(52px,7vw,108px);line-height:.86">Contacto</h2>
+    <div class="m" style="display:flex;flex-direction:column;border-top:2px solid #0E0E0E;font-size:15px">
+      <a href="mailto:info@namsanglow.org" style="padding:12px 0;border-bottom:1px solid #0E0E0E;display:flex;justify-content:space-between;min-height:44px;align-items:center"><span style="color:#5F5F5A">E-mail</span><strong>info@namsanglow.org</strong></a>
+      <a href="https://wa.me/351966700740" style="padding:12px 0;border-bottom:1px solid #0E0E0E;display:flex;justify-content:space-between;min-height:44px;align-items:center"><span style="color:#5F5F5A">WhatsApp</span><strong>+351 966 700 740</strong></a>
+      <a href="https://instagram.com/namsanglow_skincare" style="padding:12px 0;border-bottom:1px solid #0E0E0E;display:flex;justify-content:space-between;min-height:44px;align-items:center"><span style="color:#5F5F5A">Instagram</span><strong>@namsanglow_skincare</strong></a>
+      <div style="padding:12px 0;border-bottom:1px solid #0E0E0E;display:flex;justify-content:space-between;min-height:44px;align-items:center"><span style="color:#5F5F5A">Local</span><strong>Braga, Portugal</strong></div>
+    </div>
+  </div>
+  <form style="border:2px solid #0E0E0E;padding:32px;display:flex;flex-direction:column;gap:18px;background:#fff">
+    <div class="m" style="display:flex;justify-content:space-between;font-weight:700"><span>Formulário Nº 001</span><span>* obrigatório</span></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr));gap:18px"><div><label class="m" for="c1">Primeiro nome *</label><input id="c1" type="text"></div><div><label class="m" for="c2">Apelido</label><input id="c2" type="text"></div></div>
+    <div><label class="m" for="c3">E-mail *</label><input id="c3" type="email"></div>
+    <div><label class="m" for="c4">Mensagem</label><textarea id="c4" rows="4" style="resize:vertical"></textarea></div>
+    <div><button class="btn btn-ink" type="button">Enviar →</button></div>
+  </form>
+</section>
+
+<!-- Rodapé -->
+<footer style="background:#0E0E0E;color:#F1F0EB">
+  <div style="max-width:1360px;margin:0 auto;padding:48px clamp(16px,3vw,40px);box-sizing:border-box;display:flex;flex-direction:column;gap:32px">
+    <div class="c" style="font-size:clamp(64px,13vw,200px);line-height:.82;color:#D4FF3F">Namsan Glow</div>
+    <div class="m" style="display:flex;justify-content:space-between;gap:16px 32px;flex-wrap:wrap;border-top:1px solid #5F5F5A;padding-top:20px"><span>Asian Skincare / Braga, Portugal</span><span>info@namsanglow.org</span><span style="display:flex;gap:20px"><a href="#/loja">Loja</a><a href="#/sobre">Sobre</a><a href="#/sobre/contactos">Contacto</a></span></div>
+  </div>
+</footer>
+
+</div>
+</template>
+<template id="dc-tpl-loja">
+
+<div style="background:#F1F0EB">
+
+<div class="m" style="background:#D4FF3F;border-bottom:2px solid #0E0E0E;min-height:40px;display:flex;align-items:center;justify-content:center;gap:8px 32px;flex-wrap:wrap;padding:8px 16px;box-sizing:border-box;font-weight:700;text-align:center">
+  <span>Código WELCOME10 = −10% no 1.º pedido</span><span>/</span><span>Envio grátis a partir de [VALOR] €</span><span>/</span><span>−15% em todas as máscaras faciais</span>
+</div>
+
+<header style="border-bottom:2px solid #0E0E0E">
+  <div style="max-width:1360px;margin:0 auto;padding:0 clamp(16px,3vw,40px);min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;box-sizing:border-box">
+    <a href="#/inicio" style="display:flex;align-items:baseline;gap:12px"><span class="c" style="font-size:34px;line-height:1">Namsan Glow</span><span class="m" style="font-size:11px;color:#5F5F5A">Asian Skincare / Braga PT</span></a>
+    <nav class="nv m" style="display:flex;gap:20px;flex-wrap:wrap;font-weight:700"><a href="#/sobre/marcas"><span style="color:#5F5F5A">01</span>Marcas</a><a href="#/sobre"><span style="color:#5F5F5A">02</span>Sobre</a><a href="#/sobre/contactos"><span style="color:#5F5F5A">03</span>Contacto</a><a href="#/loja" aria-current="page" style="background:#0E0E0E;color:#D4FF3F"><span>04</span>Loja</a></nav>
+    <div style="display:flex;gap:8px;align-items:center">
+      <a class="ic" href="#/loja" aria-label="Procurar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg></a>
+      <a class="ic" href="https://wa.me/351966700740" aria-label="WhatsApp"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" aria-hidden="true"><path d="M4 20l1.3-4.2A8 8 0 1 1 8.4 19z"></path></svg></a>
+      <a class="ic" href="https://instagram.com/namsanglow_skincare" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="4"></rect><circle cx="12" cy="12" r="4"></circle></svg></a>
+      <a class="btn btn-ink" href="#/loja" style="min-height:44px;padding:0 16px">Carrinho (0)</a>
+    </div>
+  </div>
+</header>
+
+<main style="max-width:1360px;margin:0 auto;padding:28px clamp(16px,3vw,40px) 96px;box-sizing:border-box;display:flex;flex-direction:column;gap:28px">
+  <div class="m" style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:#5F5F5A"><span><a href="#/inicio" style="text-decoration:underline">Página inicial</a> / Todos os produtos</span><span>Catálogo Nº 001</span></div>
+  <h1 class="c" style="margin:0;font-size:clamp(72px,14vw,220px);line-height:.8;display:flex;align-items:flex-start;gap:20px;flex-wrap:wrap">Loja <span style="font-size:.28em;line-height:1;background:#D4FF3F;border:2px solid #0E0E0E;padding:.06em .22em;margin-top:.12em">173 produtos</span></h1>
+
+  <div style="display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start;margin-top:12px">
+    <!-- Índice de marcas -->
+    <aside class="rail m" style="flex:0 0 250px;display:flex;flex-direction:column;border-bottom:1px solid #0E0E0E">
+      <span style="color:#5F5F5A;margin-bottom:10px">Buscar por</span>
+      <a href="#/loja" style="background:#0E0E0E;color:#D4FF3F;font-weight:700"><span>00</span>Todos os produtos</a>
+      <sc-for list="{{brands}}" as="b" hint-placeholder-count="14"><a href="#/loja"><span style="color:#5F5F5A">{{b.i}}</span>{{b.n}}</a></sc-for>
+    </aside>
+
+    <!-- Tabela -->
+    <section style="flex:999 1 640px;min-width:0;display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;gap:16px 32px;flex-wrap:wrap;align-items:center;border-top:2px solid #0E0E0E;border-bottom:2px solid #0E0E0E;padding:12px 0">
+        <div style="display:flex;align-items:center;gap:12px;flex:1 1 300px"><label for="pr" class="m" style="font-weight:700">Preço</label><span class="m">3 €</span><input id="pr" type="range" min="3" max="295" value="295" style="flex:1;min-width:100px;accent-color:#0E0E0E;min-height:28px"><span class="m">295 €</span></div>
+        <div style="display:flex;align-items:center;gap:10px;min-height:44px"><input id="es" type="checkbox" style="width:20px;height:20px;accent-color:#0E0E0E;margin:0"><label for="es" class="m" style="font-weight:700">Ocultar esgotados</label></div>
+        <div style="display:flex;align-items:center;gap:10px"><label for="ord" class="m" style="font-weight:700">Ordenar</label><select id="ord"><option>Recomendado</option><option>Preço ↑</option><option>Preço ↓</option></select></div>
+      </div>
+      <div style="overflow-x:auto;border-bottom:1px solid #0E0E0E">
+        <div class="m" style="display:grid;grid-template-columns:56px 80px minmax(110px,1fr) minmax(0,3fr) 110px 200px;gap:20px;padding:4px 16px 10px;min-width:840px;box-sizing:border-box;color:#5F5F5A"><span>Nº</span><span>Foto</span><span>Marca</span><span>Produto</span><span>Preço</span><span></span></div>
+        <sc-for list="{{products}}" as="p" hint-placeholder-count="12">
+          <a class="row" href="#/produto">
+            <span class="m" style="font-weight:700">{{p.i}}</span>
+            <span style="width:72px;height:72px;border:1px solid #0E0E0E;background:#F1F0EB;display:flex;align-items:center;justify-content:center;opacity:{{p.op}}"><svg width="28" height="44" viewBox="0 0 28 44" fill="none" stroke="#0E0E0E" stroke-width="2" aria-hidden="true"><rect x="9" y="1" width="10" height="7" fill="#D4FF3F"></rect><rect x="4" y="8" width="20" height="35"></rect><rect x="8" y="20" width="12" height="12"></rect></svg></span>
+            <span class="m" style="font-weight:700">{{p.b}}</span>
+            <span style="font-size:19px;font-weight:600;line-height:1.25;opacity:{{p.op}}">{{p.n}}</span>
+            <span class="c" style="font-size:30px;line-height:1">{{p.p}}</span>
+            <span class="m" style="font-weight:700;text-align:right">{{p.act}}</span>
+          </a>
+        </sc-for>
+      </div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-top:8px">
+        <span class="m" style="font-weight:700">12 / 173 produtos</span>
+        <a class="btn btn-ink" href="#/loja">Ver mais →</a>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer style="background:#0E0E0E;color:#F1F0EB">
+  <div class="m" style="max-width:1360px;margin:0 auto;padding:32px clamp(16px,3vw,40px);box-sizing:border-box;display:flex;justify-content:space-between;align-items:center;gap:16px 32px;flex-wrap:wrap">
+    <span class="c" style="font-size:36px;color:#D4FF3F;line-height:1">Namsan Glow</span><span>Asian Skincare / Braga, Portugal</span><span>info@namsanglow.org</span>
+    <span style="display:flex;gap:20px"><a href="#/loja">Loja</a><a href="#/sobre">Sobre</a><a href="#/sobre/contactos">Contacto</a></span>
+  </div>
+</footer>
+
+</div>
+</template>
+<template id="dc-tpl-produto">
+
+<div style="background:#F1F0EB">
+
+<div class="m" style="background:#D4FF3F;border-bottom:2px solid #0E0E0E;min-height:40px;display:flex;align-items:center;justify-content:center;gap:8px 32px;flex-wrap:wrap;padding:8px 16px;box-sizing:border-box;font-weight:700;text-align:center">
+  <span>Código WELCOME10 = −10% no 1.º pedido</span><span>/</span><span>Envio grátis a partir de [VALOR] €</span><span>/</span><span>−15% em todas as máscaras faciais</span>
+</div>
+
+<header style="border-bottom:2px solid #0E0E0E">
+  <div style="max-width:1360px;margin:0 auto;padding:0 clamp(16px,3vw,40px);min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;box-sizing:border-box">
+    <a href="#/inicio" style="display:flex;align-items:baseline;gap:12px"><span class="c" style="font-size:34px;line-height:1">Namsan Glow</span><span class="m" style="font-size:11px;color:#5F5F5A">Asian Skincare / Braga PT</span></a>
+    <nav class="nv m" style="display:flex;gap:20px;flex-wrap:wrap;font-weight:700"><a href="#/sobre/marcas"><span style="color:#5F5F5A">01</span>Marcas</a><a href="#/sobre"><span style="color:#5F5F5A">02</span>Sobre</a><a href="#/sobre/contactos"><span style="color:#5F5F5A">03</span>Contacto</a><a href="#/loja"><span style="color:#5F5F5A">04</span>Loja</a></nav>
+    <div style="display:flex;gap:8px;align-items:center">
+      <a class="ic" href="#/loja" aria-label="Procurar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg></a>
+      <a class="ic" href="https://wa.me/351966700740" aria-label="WhatsApp"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" aria-hidden="true"><path d="M4 20l1.3-4.2A8 8 0 1 1 8.4 19z"></path></svg></a>
+      <a class="ic" href="https://instagram.com/namsanglow_skincare" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="4"></rect><circle cx="12" cy="12" r="4"></circle></svg></a>
+      <a class="btn btn-ink" href="#/loja" style="min-height:44px;padding:0 16px;font-size:14px">Carrinho (0)</a>
+    </div>
+  </div>
+</header>
+
+<main style="max-width:1360px;margin:0 auto;padding:24px clamp(16px,3vw,40px) 0;box-sizing:border-box;display:flex;flex-direction:column;gap:28px">
+  <div class="m" style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:#5F5F5A"><span><a href="#/inicio" style="text-decoration:underline">Início</a> / <a href="#/loja" style="text-decoration:underline">Torriden</a> / Torriden DIVE-IN Moisture Sun Cream</span><span>Ficha técnica Nº 007</span></div>
+
+  <section style="display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start">
+    <!-- Figura -->
+    <div style="flex:1 1 480px;display:flex;flex-direction:column;gap:12px">
+      <div style="position:relative;aspect-ratio:1/1;border:2px solid #0E0E0E;background:#E4E3DC;display:flex;align-items:center;justify-content:center">
+        <div style="position:absolute;left:50%;top:0;bottom:0;width:1px;background:#0E0E0E;opacity:.2"></div>
+        <div style="position:absolute;top:50%;left:0;right:0;height:1px;background:#0E0E0E;opacity:.2"></div>
+        <svg viewBox="0 0 160 300" width="34%" fill="none" stroke="#0E0E0E" stroke-width="2.5" aria-hidden="true" style="position:relative"><path d="M44 8h72l8 30H36z" fill="#D4FF3F"></path><path d="M36 38h88l-6 238a8 8 0 0 1-8 8H50a8 8 0 0 1-8-8z" fill="#F1F0EB"></path><rect x="52" y="124" width="56" height="74"></rect><path d="M60 140h40M60 152h40M60 164h24"></path></svg>
+        <span class="m" style="position:absolute;left:12px;top:10px;font-weight:700">Fig. 01 / 04</span>
+        <span class="m" style="position:absolute;left:12px;bottom:10px">Foto do produto · substituir</span>
+        <span class="m" style="position:absolute;right:12px;bottom:10px">SPF50+ PA++++</span>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px">
+        <sc-for list="{{thumbs}}" as="t" hint-placeholder-count="4"><button type="button" aria-label="Ver figura {{t.i}}" class="m" style="aspect-ratio:1/1;border:2px solid #0E0E0E;background:{{t.bg}};cursor:pointer;font-weight:700;color:#0E0E0E">{{t.i}}</button></sc-for>
+      </div>
+    </div>
+
+    <!-- Ficha -->
+    <div style="flex:1 1 480px;display:flex;flex-direction:column;gap:24px">
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <a href="#/loja" class="m" style="font-weight:700;text-decoration:underline">Torriden</a>
+        <h1 class="c" style="margin:0;font-size:clamp(56px,7vw,112px);line-height:.84">DIVE-IN Moisture Sun Cream</h1>
+      </div>
+      <div style="display:flex;align-items:stretch;gap:0;border:2px solid #0E0E0E">
+        <div style="background:#D4FF3F;padding:14px 24px;display:flex;align-items:center;border-right:2px solid #0E0E0E"><span class="c" style="font-size:64px;line-height:.9">26,50 €</span></div>
+        <div class="m" style="padding:14px 20px;display:flex;flex-direction:column;justify-content:center;gap:4px;font-weight:700"><span>● Em stock</span><span style="color:#5F5F5A">IVA incluído? [CONFIRMAR]</span></div>
+      </div>
+      <div>
+        <div class="m" style="color:#5F5F5A;padding-bottom:6px">Especificações</div>
+        <div style="border-top:2px solid #0E0E0E">
+          <sc-for list="{{specs}}" as="s" hint-placeholder-count="6"><div class="sp"><span class="m" style="color:#5F5F5A">{{s.k}}</span><span style="font-size:17px;font-weight:600;line-height:1.3">{{s.v}}</span></div></sc-for>
+        </div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap">
+        <div style="display:flex;flex-direction:column;gap:6px"><span class="m" style="font-weight:700">Quantidade *</span><div style="display:flex"><button class="st" type="button" aria-label="Diminuir quantidade" onclick="{{dec}}">−</button><span class="m" style="width:60px;height:60px;box-sizing:border-box;border-top:2px solid #0E0E0E;border-bottom:2px solid #0E0E0E;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:700" aria-live="polite">{{qty}}</span><button class="st" type="button" aria-label="Aumentar quantidade" onclick="{{inc}}">+</button></div></div>
+        <button class="btn btn-ink" type="button" style="flex:1 1 220px">Adicionar ao carrinho →</button>
+      </div>
+      <div class="m" style="display:flex;gap:8px 24px;flex-wrap:wrap;color:#5F5F5A;align-items:center">Partilhar <a href="https://wa.me/351966700740" style="color:#0E0E0E;text-decoration:underline;min-height:44px;display:inline-flex;align-items:center">WhatsApp</a><a href="#/produto" style="color:#0E0E0E;text-decoration:underline;min-height:44px;display:inline-flex;align-items:center">Facebook</a><a href="#/produto" style="color:#0E0E0E;text-decoration:underline;min-height:44px;display:inline-flex;align-items:center">Pinterest</a></div>
+    </div>
+  </section>
+
+  <!-- Uso e ingredientes -->
+  <section style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:0;border:2px solid #0E0E0E;margin-top:24px">
+    <div style="padding:32px;display:flex;flex-direction:column;gap:20px;border-right:1px solid #0E0E0E;margin-right:-1px">
+      <span class="m" style="font-weight:700">Modo de utilização</span>
+      <div style="display:grid;grid-template-columns:72px 1fr;gap:16px;align-items:start"><span class="c" style="font-size:72px;line-height:.8;color:#0E0E0E;background:#D4FF3F;padding:6px 8px;text-align:center">01</span><p style="margin:0;font-size:22px;line-height:1.35;font-weight:500">Após a rotina básica de cuidados de pele, aplicar uma camada fina de protetor solar uniformemente sobre todo o rosto.</p></div>
+    </div>
+    <div style="padding:32px;display:flex;flex-direction:column;gap:20px">
+      <span class="m" style="font-weight:700">Ingredientes principais (INCI)</span>
+      <p class="m" style="margin:0;font-size:15px;line-height:1.8;text-transform:none">Água, Propanediol, Dibutyl Adipate, … <span style="background:#D4FF3F;padding:2px 6px;text-transform:uppercase">[Lista completa de ingredientes]</span></p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap"><span class="m" style="border:1.5px solid #0E0E0E;padding:6px 12px;font-weight:700">Ácido hialurónico</span><span class="m" style="border:1.5px solid #0E0E0E;padding:6px 12px;font-weight:700">Pantenol</span><span class="m" style="border:1.5px solid #0E0E0E;padding:6px 12px;font-weight:700">Alantoína</span></div>
+    </div>
+  </section>
+
+  <!-- Relacionados -->
+  <section style="display:flex;flex-direction:column;gap:16px;margin-top:40px;padding-bottom:88px">
+    <h2 class="c" style="margin:0;font-size:clamp(48px,6vw,92px);line-height:.88">Combina com</h2>
+    <div style="overflow-x:auto;border-bottom:1px solid #0E0E0E">
+      <sc-for list="{{related}}" as="p" hint-placeholder-count="4">
+        <a class="row" href="#/produto">
+          <span class="m" style="font-weight:700">{{p.i}}</span>
+          <span style="width:72px;height:72px;border:1px solid #0E0E0E;background:#F1F0EB;display:flex;align-items:center;justify-content:center"><svg width="28" height="44" viewBox="0 0 28 44" fill="none" stroke="#0E0E0E" stroke-width="2" aria-hidden="true"><rect x="9" y="1" width="10" height="7" fill="#D4FF3F"></rect><rect x="4" y="8" width="20" height="35"></rect><rect x="8" y="20" width="12" height="12"></rect></svg></span>
+          <span class="m" style="font-weight:700">{{p.b}}</span>
+          <span style="font-size:19px;font-weight:600;line-height:1.25">{{p.n}}</span>
+          <span class="c" style="font-size:30px;line-height:1">{{p.p}}</span>
+          <span class="m" style="font-weight:700;text-align:right">Ver ficha →</span>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+</main>
+
+<footer style="background:#0E0E0E;color:#F1F0EB">
+  <div class="m" style="max-width:1360px;margin:0 auto;padding:32px clamp(16px,3vw,40px);box-sizing:border-box;display:flex;justify-content:space-between;align-items:center;gap:16px 32px;flex-wrap:wrap">
+    <span class="c" style="font-size:36px;color:#D4FF3F;line-height:1">Namsan Glow</span><span>Asian Skincare / Braga, Portugal</span><span>info@namsanglow.org</span>
+    <span style="display:flex;gap:20px"><a href="#/loja">Loja</a><a href="#/sobre">Sobre</a><a href="#/sobre/contactos">Contacto</a></span>
+  </div>
+</footer>
+
+</div>
+</template>
+<template id="dc-tpl-sobre">
+
+<div style="background:#F1F0EB">
+
+<div class="m" style="background:#D4FF3F;border-bottom:2px solid #0E0E0E;min-height:40px;display:flex;align-items:center;justify-content:center;gap:8px 32px;flex-wrap:wrap;padding:8px 16px;box-sizing:border-box;font-weight:700;text-align:center">
+  <span>Código WELCOME10 = −10% no 1.º pedido</span><span>/</span><span>Envio grátis a partir de [VALOR] €</span><span>/</span><span>−15% em todas as máscaras faciais</span>
+</div>
+
+<header style="border-bottom:2px solid #0E0E0E">
+  <div style="max-width:1360px;margin:0 auto;padding:0 clamp(16px,3vw,40px);min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;box-sizing:border-box">
+    <a href="#/inicio" style="display:flex;align-items:baseline;gap:12px"><span class="c" style="font-size:34px;line-height:1">Namsan Glow</span><span class="m" style="font-size:11px;color:#5F5F5A">Asian Skincare / Braga PT</span></a>
+    <nav class="nv m" style="display:flex;gap:20px;flex-wrap:wrap;font-weight:700"><a href="#/sobre/marcas"><span style="color:#5F5F5A">01</span>Marcas</a><a href="#/sobre" aria-current="page" style="background:#0E0E0E;color:#D4FF3F"><span>02</span>Sobre</a><a href="#/sobre/contactos"><span style="color:#5F5F5A">03</span>Contacto</a><a href="#/loja"><span style="color:#5F5F5A">04</span>Loja</a></nav>
+    <div style="display:flex;gap:8px;align-items:center">
+      <a class="ic" href="#/loja" aria-label="Procurar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg></a>
+      <a class="ic" href="https://wa.me/351966700740" aria-label="WhatsApp"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" aria-hidden="true"><path d="M4 20l1.3-4.2A8 8 0 1 1 8.4 19z"></path></svg></a>
+      <a class="ic" href="https://instagram.com/namsanglow_skincare" aria-label="Instagram"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="4"></rect><circle cx="12" cy="12" r="4"></circle></svg></a>
+      <a class="btn btn-ink" href="#/loja" style="min-height:44px;padding:0 16px">Carrinho (0)</a>
+    </div>
+  </div>
+</header>
+
+<!-- Manifesto -->
+<section style="max-width:1360px;margin:0 auto;padding:28px clamp(16px,3vw,40px) 0;box-sizing:border-box;display:flex;flex-direction:column;gap:28px">
+  <div class="m" style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:#5F5F5A"><span>Sobre a Namsan Glow</span><span>Manifesto Nº 001</span></div>
+  <h1 class="c" style="margin:0;font-size:clamp(64px,12vw,184px);line-height:.84;text-wrap:balance">Os melhores cuidados <span style="background:#D4FF3F;padding:0 .08em">asiáticos</span> com a pele</h1>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));border-top:2px solid #0E0E0E;border-bottom:2px solid #0E0E0E">
+    <p style="margin:0;padding:24px 24px 24px 0;font-size:20px;line-height:1.45;font-weight:500;border-right:1px solid #0E0E0E">Uma loja de Braga, dedicada a produtos asiáticos de elevada qualidade, feitos com ingredientes tradicionais.</p>
+    <div class="m" style="padding:24px;display:flex;flex-direction:column;gap:6px;border-right:1px solid #0E0E0E"><span style="color:#5F5F5A">Marcas</span><span class="c" style="font-size:72px;line-height:.85">14</span></div>
+    <div class="m" style="padding:24px 0 24px 24px;display:flex;flex-direction:column;gap:6px"><span style="color:#5F5F5A">Produtos</span><span class="c" style="font-size:72px;line-height:.85">173</span></div>
+  </div>
+</section>
+
+<!-- Princípios -->
+<section style="max-width:1360px;margin:0 auto;padding:56px clamp(16px,3vw,40px) 0;box-sizing:border-box">
+  <sc-for list="{{principles}}" as="p" hint-placeholder-count="3">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:12px 40px;padding:28px 0;border-bottom:1px solid #0E0E0E;align-items:baseline">
+      <div style="display:flex;gap:20px;align-items:baseline"><span class="m" style="font-weight:700">{{p.n}}</span><span class="c" style="font-size:clamp(40px,5vw,72px);line-height:.9">{{p.t}}</span></div>
+      <p style="margin:0;font-size:19px;line-height:1.5;font-weight:500;max-width:520px">{{p.d}}</p>
+    </div>
+  </sc-for>
+</section>
+
+<!-- História -->
+<section style="max-width:1360px;margin:0 auto;padding:56px clamp(16px,3vw,40px) 0;box-sizing:border-box">
+  <div style="background:#D4FF3F;border:2px solid #0E0E0E;padding:clamp(24px,4vw,56px);display:flex;flex-direction:column;gap:20px;min-height:300px;justify-content:space-between">
+    <span class="m" style="font-weight:700">A nossa história</span>
+    <p class="c" style="margin:0;font-size:clamp(32px,4.2vw,64px);line-height:.95;font-stretch:75%">[Escreva aqui a história da Namsan Glow: quem são, porque escolheram a cosmética asiática e como selecionam cada marca.]</p>
+  </div>
+</section>
+
+<!-- Marcas -->
+<section id="marcas" style="max-width:1360px;margin:0 auto;padding:72px clamp(16px,3vw,40px) 0;box-sizing:border-box;display:flex;flex-direction:column;gap:24px">
+  <h2 class="c" style="margin:0;font-size:clamp(56px,8vw,120px);line-height:.85">Marcas <span style="color:#5F5F5A">(14)</span></h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr));column-gap:48px;border-top:2px solid #0E0E0E">
+    <sc-for list="{{brands}}" as="b" hint-placeholder-count="14"><a class="bl" href="#/loja"><span style="display:flex;gap:20px;align-items:baseline"><span class="m" style="color:#5F5F5A">{{b.i}}</span><span class="c" style="font-size:34px;line-height:1">{{b.n}}</span></span><span class="m" style="font-weight:700">Ver →</span></a></sc-for>
+  </div>
+</section>
+
+<!-- Contactos -->
+<section id="contactos" style="max-width:1360px;margin:0 auto;padding:72px clamp(16px,3vw,40px) 72px;box-sizing:border-box;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(420px,100%),1fr));gap:48px">
+  <div style="display:flex;flex-direction:column;gap:24px">
+    <h2 class="c" style="margin:0;font-size:clamp(52px,7vw,108px);line-height:.86">Contate-nos</h2>
+    <div class="m" style="display:flex;flex-direction:column;border-top:2px solid #0E0E0E;font-size:15px">
+      <a href="mailto:info@namsanglow.org" style="padding:12px 0;border-bottom:1px solid #0E0E0E;display:flex;justify-content:space-between;min-height:44px;align-items:center"><span style="color:#5F5F5A">E-mail</span><strong>info@namsanglow.org</strong></a>
+      <a href="https://wa.me/351966700740" style="padding:12px 0;border-bottom:1px solid #0E0E0E;display:flex;justify-content:space-between;min-height:44px;align-items:center"><span style="color:#5F5F5A">WhatsApp</span><strong>+351 966 700 740</strong></a>
+      <a href="https://instagram.com/namsanglow_skincare" style="padding:12px 0;border-bottom:1px solid #0E0E0E;display:flex;justify-content:space-between;min-height:44px;align-items:center"><span style="color:#5F5F5A">Instagram</span><strong>@namsanglow_skincare</strong></a>
+      <div style="padding:12px 0;border-bottom:1px solid #0E0E0E;display:flex;justify-content:space-between;min-height:44px;align-items:center"><span style="color:#5F5F5A">Local</span><strong>Braga, Portugal</strong></div>
+    </div>
+  </div>
+  <form style="border:2px solid #0E0E0E;padding:32px;display:flex;flex-direction:column;gap:18px;background:#fff">
+    <div class="m" style="display:flex;justify-content:space-between;font-weight:700"><span>Formulário Nº 001</span><span>* obrigatório</span></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr));gap:18px"><div><label class="m" for="c1">Primeiro nome *</label><input id="c1" type="text"></div><div><label class="m" for="c2">Apelido</label><input id="c2" type="text"></div></div>
+    <div><label class="m" for="c3">E-mail *</label><input id="c3" type="email"></div>
+    <div><label class="m" for="c4">Mensagem</label><textarea id="c4" rows="4" style="resize:vertical"></textarea></div>
+    <div><button class="btn btn-ink" type="button">Enviar →</button></div>
+  </form>
+</section>
+
+<footer style="background:#0E0E0E;color:#F1F0EB">
+  <div class="m" style="max-width:1360px;margin:0 auto;padding:32px clamp(16px,3vw,40px);box-sizing:border-box;display:flex;justify-content:space-between;align-items:center;gap:16px 32px;flex-wrap:wrap">
+    <span class="c" style="font-size:36px;color:#D4FF3F;line-height:1">Namsan Glow</span><span>Asian Skincare / Braga, Portugal</span><span>info@namsanglow.org</span>
+    <span style="display:flex;gap:20px"><a href="#/loja">Loja</a><a href="#/sobre">Sobre</a><a href="#/sobre/contactos">Contacto</a></span>
+  </div>
+</footer>
+
+</div>
+</template>
+<script>window.__NG_BLOB__={"b298b2ecaada3b3a9066f02f654d718b":"logo-badge.png","d06d8fc0151120a83a60d715cf43ed97":"logo-square.jpg","f16a9b0f2816ab48c79ead1696dafd55":"hero-folha.jpg","6317fd002ac707fd25893dbdfc165e45":"banner-ingredientes.jpg","9cbf13d9a53a64c72b713568e3a821a3":"banner-loja.jpg","11373ca93be0bc1371fd96100c30bd57":"p-skin1004-oil.webp","03e69bc9bbfc7a160b211e97a3603214":"p-skin1004-teatrica.webp","09b82551670a736e87f1e2f911c0fcf5":"p-anua-3plus.webp","dd04958a822e50b80d1286c1b6ebfdea":"p-anua-azelaic10.webp","b8d0ef6de78f6f797b3635e06e9de53f":"p-haruharu-cream.webp","492ec57bdb08340f69b18fcd3d3d1fdd":"p-vt-eye.webp","c0289d2f4862c8cc19d89f614f8aa584":"p-torriden-sun.webp","9ce848318b91be0dac65e37ce52d4444":"p-torriden-toneup.webp","306d835438bfa558afbeed758adf5abc":"p-medicube-red.webp","fe04b029e492b18294c4c1bab7ca4352":"p-anua-toner.webp","78efb45b0786c5db4bae448b20344e59":"p-anua-gel.webp","7173fad2653b5cf0f08173eba618c9a6":"p-numbuzin-eye.webp","950698a69e8e46222125c710e25c319c":"p-anua-niacinamide.webp","86be61ca78b9ec21e4b11c940cdad270":"p-anua-pdrn.webp","5e4b4d6b646054b80b2ec7acea9cd7c9":"p-anua-retinol.webp","5e619c41b9057623ca2860c559e15bee":"m-biodance.webp","696ca49b32c3b22500817f415483203e":"m-torriden.webp","09a0131eab3ae4fa4c9bc391ff1d8c98":"m-vt.webp","86ce0379a753bd2198a0bcffc59f69d2":"m-dralthea.webp","b461e8816616836ff2c53a3eee2c0153":"brand-anua.png","d02fed69515ca6750ce5f5bd20e8ac49":"brand-beauty-of-joseon.png","d535cf259d9c23116402c14ecf9d5048":"brand-biodance.png","5503897580552e1d807c4c9118caddd8":"brand-celimax.png","ecbe62be40e0fa85d7ee52ddcb05a8b9":"brand-centellian24.png","77f87e8ae4b38554151d1d707df64e3a":"brand-cosrx.png","3e0b6784f643cb8bbd1891b1e8b0ed4c":"brand-dr-althea.png","e738138bc0670b173838a6405e331f5e":"brand-haruharu-wonder.png","369b3aab5c460b0c3f3bee519f85dc37":"brand-medicube.png","4e05d9591754f267d97d4d07954553e2":"brand-numbuzin.png","9c4671ad93740691ed03814d2ddb88c1":"brand-skin1004.png","c4dc7d5803a74e0c2f2c2997c5ca9e28":"brand-some-by-mi.png","2e32b26ea8c36965f272d4bf42905b16":"brand-torriden.png","e87a94c87f5430520e02d862ad01188a":"brand-vt-cosmetics.png"};
+(function (g) {
+  var BLOB = g.__NG_BLOB__ || {};
+  function fix(v) {
+    return typeof v === 'string'
+      ? v.replace(/\/_blob\/([0-9a-f]{32})/g, function (m, id) { return 'assets/' + (BLOB[id] || id); })
+      : v;
+  }
+  function look(path, sc) {
+    path = path.trim();
+    if (path === 'true') return true;
+    if (path === 'false') return false;
+    if (path === 'null') return null;
+    if (/^-?\d+(\.\d+)?$/.test(path)) return Number(path);
+    if (/^'.*'$|^".*"$/.test(path)) return path.slice(1, -1);
+    var parts = path.split('.'), v = sc;
+    for (var i = 0; i < parts.length; i++) { if (v == null) return undefined; v = v[parts[i]]; }
+    return v;
+  }
+  var HOLE = /\{\{\s*([^}]+?)\s*\}\}/g, WHOLE = /^\s*\{\{\s*([^}]+?)\s*\}\}\s*$/;
+  function interp(s, sc) { return s.replace(HOLE, function (m, p) { var v = look(p, sc); return v == null ? '' : String(v); }); }
+  function strip(s) { return (s || '').replace(/[{}]/g, ''); }
+  var HTML_NS = 'http://www.w3.org/1999/xhtml';
+  function render(node, sc, doc, out) {
+    var kids = node.childNodes;
+    for (var k = 0; k < kids.length; k++) {
+      var n = kids[k];
+      if (n.nodeType === 3) { out.appendChild(doc.createTextNode(interp(n.nodeValue, sc))); continue; }
+      if (n.nodeType !== 1) continue;
+      var tag = n.localName;
+      if (tag === 'sc-for') {
+        var list = look(strip(n.getAttribute('list')), sc) || [];
+        var as = n.getAttribute('as') || 'item';
+        for (var i = 0; i < list.length; i++) { var s = Object.create(sc); s[as] = list[i]; s.$index = i; render(n, s, doc, out); }
+        continue;
+      }
+      if (tag === 'sc-if') { if (look(strip(n.getAttribute('value')), sc)) render(n, sc, doc, out); continue; }
+      var el = (n.namespaceURI && n.namespaceURI !== HTML_NS) ? doc.createElementNS(n.namespaceURI, n.localName) : doc.createElement(tag);
+      for (var a = 0; a < n.attributes.length; a++) {
+        var name = n.attributes[a].name, val = n.attributes[a].value;
+        if (/^hint-/.test(name)) continue;
+        var m = WHOLE.exec(val);
+        if (m) {
+          var raw = look(m[1], sc);
+          if (/^on[a-z]/i.test(name)) { if (typeof raw === 'function') el.addEventListener(name.slice(2).toLowerCase(), raw); continue; }
+          if (raw === false || raw == null) continue;
+          if (raw === true) { el.setAttribute(name, ''); continue; }
+          el.setAttribute(name, fix(String(raw)));
+          continue;
+        }
+        if (/^on[a-z]/i.test(name)) continue;
+        el.setAttribute(name, fix(interp(val, sc)));
+      }
+      render(n, sc, doc, el);
+      out.appendChild(el);
+    }
+  }
+  function DCLogic(props) { this.props = props || {}; this.state = {}; }
+  DCLogic.prototype.setState = function (u, cb) {
+    var s = typeof u === 'function' ? u(this.state, this.props) : u;
+    this.state = Object.assign({}, this.state, s);
+    if (this.__rerender) this.__rerender();
+    if (cb) cb();
+  };
+  DCLogic.prototype.forceUpdate = function () { if (this.__rerender) this.__rerender(); };
+  g.DCLogic = DCLogic;
+  g.__dcRender = render;
+  g.__dcBoot = function (Component, props) {
+    var tpl = document.getElementById('dc-tpl'), app = document.getElementById('app');
+    var c = new Component(props);
+    c.props = props;
+    function draw() {
+      var frag = document.createDocumentFragment();
+      render(tpl.content, c.renderVals(), document, frag);
+      app.replaceChildren(frag);
+    }
+    c.__rerender = draw;
+    draw();
+  };
+})(typeof window !== 'undefined' ? window : globalThis);
+</script>
+<script>
+(function () {
+  var pages = {}, props = {}, app = document.getElementById('app'), cur = null;
+  var titles = {inicio:"Rótulo · Início",loja:"Rótulo · Loja",produto:"Rótulo · Produto",sobre:"Rótulo · Sobre e Contactos"};
+  window.__ngRegister = function (k, C, p) {
+    pages[k] = C; props[k] = p || {};
+    if (k === 'inicio' && document.getElementById('dc-tpl-checkout')) { pages.checkout = C; props.checkout = p || {}; }
+  };
+  function parse() {
+    var h = location.hash.replace(/^#\/?/, '').split('/');
+    var key = pages[h[0]] ? h[0] : 'inicio';
+    return { key: key, sec: pages[h[0]] ? (h[1] || '') : '' };
+  }
+  function syncNav() {
+    var open = app.classList.contains('nav-open');
+    var t = app.querySelectorAll('.nav-toggle');
+    for (var i = 0; i < t.length; i++) t[i].setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  function behavior(smooth) {
+    var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return smooth && !reduce ? 'smooth' : 'instant';
+  }
+  function reveal(sec, smooth) {
+    var target = sec && document.getElementById(sec);
+    if (target) target.scrollIntoView({ behavior: behavior(smooth), block: 'start' });
+    else window.scrollTo({ top: 0, behavior: behavior(smooth) });
+  }
+  function after(entering) {
+    if (window.__ngAfterDraw) window.__ngAfterDraw(app, entering);
+  }
+  function route() {
+    var h = location.hash;
+    if (h && h.indexOf('#/') !== 0 && h !== '#') {
+      var el = document.getElementById(h.slice(1));
+      if (el) { el.scrollIntoView({ behavior: behavior(true), block: 'start' }); return; }
+    }
+    var r = parse();
+    app.classList.remove('nav-open');
+    if (cur === r.key) { syncNav(); reveal(r.sec, true); return; }
+    cur = r.key;
+    var C = pages[r.key];
+    var c = new C(props[r.key]);
+    c.props = props[r.key];
+    var tpl = document.getElementById('dc-tpl-' + r.key);
+    var entering = true;
+    function draw() {
+      var frag = document.createDocumentFragment();
+      window.__dcRender(tpl.content, c.renderVals(), document, frag);
+      app.replaceChildren(frag);
+      syncNav();
+      if (!entering) after(false);
+    }
+    c.__rerender = draw;
+    window.__ngRedraw = draw;
+    app.setAttribute('data-page', r.key);
+    document.title = titles[r.key] || titles.inicio.split(' · ')[0] + ' · Finalizar compra';
+    draw();
+    entering = false;
+    reveal(r.sec, false);
+    after(true);
+  }
+  window.addEventListener('hashchange', route);
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest && e.target.closest('.nav-toggle');
+    if (t) { app.classList.toggle('nav-open'); syncNav(); return; }
+    if (app.classList.contains('nav-open') && e.target.closest && e.target.closest('.nav a')) {
+      app.classList.remove('nav-open'); syncNav();
+    }
+    var a = e.target.closest && e.target.closest('a[href^="#/"]');
+    if (a && a.getAttribute('href') === (location.hash || '#/inicio')) { e.preventDefault(); reveal(parse().sec, true); }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && app.classList.contains('nav-open')) { app.classList.remove('nav-open'); syncNav(); }
+  });
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', route); else route();
+})();
+</script>
+<script>
+(function () {
+  var Component = (function (DCLogic) {
+
+class Component extends DCLogic {
+  renderVals() {
+    const P = [
+      ['SKIN1004', 'Madagascar Centella Light Cleansing Oil 30ml', '10,00 €'],
+      ['SKIN1004', 'Madagascar Centella Tea-Trica Relief Ampoule 30ml', '11,00 €'],
+      ['Anua', '3+ Azelaic Acid Cica Skin Soothing Moisturizer', '28,00 €'],
+      ['Anua', 'Azelaic Acid 10 Hyaluron Redness Soothing Serum', '28,00 €'],
+      ['Haruharu Wonder', 'Black Rice 5 Ceramide Barrier Moisturizing Cream', '20,00 €'],
+      ['VT Cosmetics', 'Reedle Shot Lifting Eye Cream', '26,00 €'],
+      ['Torriden', 'DIVE-IN Moisture Sun Cream', '26,50 €'],
+      ['Torriden', 'Balanceful Cica Tone Up Sun Cream', '22,00 €']
+    ];
+    return {
+      brands: ['Dr. Althea','Medicube','Biodance','Beauty of Joseon','COSRX','Celimax','Anua','Skin1004','Torriden','VT Cosmetics','Numbuzin','Some By Mi','Centellian24','Haruharu Wonder'],
+      products: P.map((r, i) => ({ i: '0' + (i + 1), b: r[0], n: r[1], p: r[2] })),
+      pillars: [
+        { n: '01', t: 'Elixires hidratantes', d: 'Reabasteça a hidratação da sua pele com os nossos elixires hidratantes.' },
+        { n: '02', t: 'Essências revitalizantes', d: 'Experimente os benefícios rejuvenescedores das nossas essências revitalizantes.' },
+        { n: '03', t: 'Absorção sem esforço', d: 'A absorção perfeita garante uma experiência agradável de cuidado com a pele.' },
+        { n: '04', t: 'Bálsamos de limpeza', d: 'Purifique a sua pele com os nossos bálsamos de limpeza suaves e nutritivos.' }
+      ],
+      reviews: [
+        { i: '01', q: 'Os produtos Namsan Glow Asian Skincare elevaram minha rotina de cuidados com a pele.', a: 'Cláudia Soares' },
+        { i: '02', q: 'Estou completamente apaixonada pelos produtos da Namsan Glow.', a: 'Teresa Domingos' },
+        { i: '03', q: 'A minha pele fica purificada, refrescada e verdadeiramente nutrida.', a: 'Sofia Matos' }
+      ]
+    };
+  }
+}
+
+    return Component;
+  })(window.DCLogic);
+  __ngRegister('inicio', Component, {});
+})();
+</script>
+<script>
+(function () {
+  var Component = (function (DCLogic) {
+
+class Component extends DCLogic {
+  renderVals() {
+    const P = [
+      ['SKIN1004', 'Madagascar Centella Light Cleansing Oil 30ml', '10,00 €'],
+      ['SKIN1004', 'Madagascar Centella Tea-Trica Relief Ampoule 30ml', '11,00 €'],
+      ['Anua', '3+ Azelaic Acid Cica Skin Soothing Moisturizer', '28,00 €'],
+      ['Anua', 'Azelaic Acid 10 Hyaluron Redness Soothing Serum', '28,00 €'],
+      ['Haruharu Wonder', 'Black Rice 5 Ceramide Barrier Moisturizing Cream', '20,00 €'],
+      ['VT Cosmetics', 'Reedle Shot Lifting Eye Cream', '26,00 €'],
+      ['Torriden', 'DIVE-IN Moisture Sun Cream', '26,50 €'],
+      ['Torriden', 'Balanceful Cica Tone Up Sun Cream', '22,00 €'],
+      ['Medicube', 'Red Succinic Acid Serum', '24,00 €'],
+      ['Anua', 'Heartleaf 77 Soothing Toner 250ml', '25,50 €'],
+      ['Anua', '8 Hyaluronic Acid Gentle Gel Cleanser', '16,00 €'],
+      ['Numbuzin', 'No.9 NAD+ Retinol Volumetox Eye Cream', '', true]
+    ];
+    const names = ['ANUA','Beauty of Joseon','SKIN1004','COSRX','Medicube','Biodance','Torriden','Celimax','VT Cosmetics','Centellian24','Dr Althea','Numbuzin','SOME BY MI','Haruharu Wonder'];
+    return {
+      brands: names.map((n, i) => ({ n, i: (i + 1 < 10 ? '0' : '') + (i + 1) })),
+      products: P.map((r, i) => ({ i: (i + 1 < 10 ? '0' : '') + (i + 1), b: r[0], n: r[1], p: r[3] ? 'Esgotado' : r[2], act: r[3] ? '[ Esgotado ]' : 'Visualização rápida +', op: r[3] ? '0.45' : '1' }))
+    };
+  }
+}
+
+    return Component;
+  })(window.DCLogic);
+  __ngRegister('loja', Component, {});
+})();
+</script>
+<script>
+(function () {
+  var Component = (function (DCLogic) {
+
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { qty: 1 }; }
+  renderVals() {
+    return {
+      qty: this.state.qty,
+      dec: () => this.setState({ qty: Math.max(1, this.state.qty - 1) }),
+      inc: () => this.setState({ qty: this.state.qty + 1 }),
+      thumbs: [{ i: '01', bg: '#D4FF3F' }, { i: '02', bg: '#F1F0EB' }, { i: '03', bg: '#F1F0EB' }, { i: '04', bg: '#F1F0EB' }],
+      specs: [
+        { k: 'Marca', v: 'Torriden' },
+        { k: 'Tipo', v: 'Protetor solar facial' },
+        { k: 'Proteção', v: 'SPF50+ PA++++' },
+        { k: 'Filtro', v: 'Químico (orgânico)' },
+        { k: 'Pele', v: 'Sensível · com pantenol e alantoína' },
+        { k: 'Textura', v: 'Aquosa leve, sem sensação pesada ou abafada' }
+      ],
+      related: [
+        { i: '01', b: 'Torriden', n: 'Balanceful Cica Tone Up Sun Cream', p: '22,00 €' },
+        { i: '02', b: 'Haruharu Wonder', n: 'Black Rice 5 Ceramide Barrier Moisturizing Cream', p: '20,00 €' },
+        { i: '03', b: 'Anua', n: 'Heartleaf 77 Soothing Toner 250ml', p: '25,50 €' },
+        { i: '04', b: 'Anua', n: '8 Hyaluronic Acid Gentle Gel Cleanser', p: '16,00 €' }
+      ]
+    };
+  }
+}
+
+    return Component;
+  })(window.DCLogic);
+  __ngRegister('produto', Component, {});
+})();
+</script>
+<script>
+(function () {
+  var Component = (function (DCLogic) {
+
+class Component extends DCLogic {
+  renderVals() {
+    const names = ['Dr. Althea','Medicube','Biodance','Beauty of Joseon','COSRX','Celimax','Anua','Skin1004','Torriden','VT Cosmetics','Numbuzin','Some By Mi','Centellian24','Haruharu Wonder'];
+    return {
+      principles: [
+        { n: '01', t: 'Elevada qualidade', d: 'Só entra na loja o que consideramos o melhor dos cuidados asiáticos com a pele.' },
+        { n: '02', t: 'Ingredientes tradicionais', d: 'Fórmulas assentes em ingredientes tradicionais, trazidos para rotinas de hoje.' },
+        { n: '03', t: 'Rotinas eficazes e luxuosas', d: 'Texturas e rituais que tornam o cuidado diário num momento a desfrutar.' }
+      ],
+      brands: names.map((n, i) => ({ n, i: (i + 1 < 10 ? '0' : '') + (i + 1) }))
+    };
+  }
+}
+
+    return Component;
+  })(window.DCLogic);
+  __ngRegister('sobre', Component, {});
+})();
+</script>
+</body>
+</html>
