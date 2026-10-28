@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="pt-PT" data-time="manha">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Namsan Glow · Luz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Figtree:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;600&family=Noto+Serif+KR:wght@400&display=swap" rel="stylesheet">
+<script>
+  // Open in the moment of the visitor's day (19h to 7h is night) before anything paints
+  (() => { try { const s = sessionStorage.getItem('ng-time-H'), h = new Date().getHours();
+    document.documentElement.dataset.time = s || (h >= 19 || h < 7 ? 'noite' : 'manha'); } catch (e) {} })();
+</script>
+<link rel="stylesheet" href="assets/ng-e.css">
+<style>
+/* H · Luz: E with a sunrise palette by day and a plum-espresso sky by night */
+:root,[data-time="manha"]{
+  --bg:#F7EFE6; --bg-2:#F0E2D2; --paper:#FFFAF4; --ink:#2E211A; --muted:#6B5749; --line:#E4D3C1;
+  --accent:#B5803A; --accent-ink:#7E5518; --accent-soft:#EFC789;
+  --deep:#2E211A; --deep-2:#3B2B21; --on-deep:#F7EFE6; --on-deep-muted:#D9C7AE;
+  --hero-bg:linear-gradient(180deg,#F8D9C2 0%,#F7E6D4 55%,#F7EFE6 100%); --hero-solid:#F8D9C2; --hero-ink:#2E211A; --hero-muted:#5F4C3F;
+  --t1:#F2D6CC; --t2:#F5E3C3; --t3:#DCE3CF; --t4:#EBDCCB; --t5:#F8EEE2;
+  --shade:46,33,26;
+}
+[data-time="noite"]{
+  --bg:#1C1612; --bg-2:#271F19; --paper:#251D17; --ink:#F2E7D7; --muted:#BDAA91; --line:#3A2E25;
+  --accent:#D4A955; --accent-ink:#E2BD72; --accent-soft:#E8C98A;
+  --deep:#120E0B; --deep-2:#1A1410; --on-deep:#F2E7D7; --on-deep-muted:#C6B399;
+  --hero-bg:radial-gradient(120% 90% at 80% 10%,#33284A 0%,#1D1626 48%,#120E0B 100%); --hero-solid:#1D1626; --hero-ink:#F2E7D7; --hero-muted:#CDBBA2;
+  --t1:#E9D2C8; --t2:#EBD9B9; --t3:#D3DACA; --t4:#E2D3C2; --t5:#EFE5D8;
+  --shade:0,0,0;
+  color-scheme:dark;
+}
+body{transition:background-color .2s}
+</style>
+</head>
+<body>
+<p class="ann" id="ann"></p>
+<header class="hdr" id="hdr"></header>
+<div popover id="langMenu" class="lang-menu"></div>
+<dialog class="mnav" id="mnav" closedby="any"></dialog>
+<main id="app"></main>
+<footer class="ft" id="ft"></footer>
+
+<script>
+window.NG_MOCK = 'H';
+window.NG_E = {
+  mock: 'H', label: 'Luz', dayNight: true,
+  sections: ['hero', 'brands', 'ritual', 'quiz', 'new', 'story', 'quotes'],
+  hero: {
+    h1: ['Uma rotina para o dia. Outra para a noite.', 'One routine for the day. Another for the night.', '낮을 위한 루틴, 밤을 위한 루틴.'],
+    leadDay: ['De manhã, limpar com suavidade e proteger do sol. Cosmética coreana escolhida em Braga.', 'In the morning, cleanse gently and protect from the sun. Korean skincare chosen in Braga.', '아침에는 부드럽게 세안하고 햇빛으로부터 피부를 지키세요. 브라가에서 고른 한국 화장품.'],
+    leadNight: ['À noite, remover o dia e deixar a pele reparar. Cosmética coreana escolhida em Braga.', 'At night, wash off the day and let your skin repair. Korean skincare chosen in Braga.', '저녁에는 하루를 씻어내고 피부가 회복하도록 두세요. 브라가에서 고른 한국 화장품.'],
+    img: 'assets/hero-gel-textures.jpg', imgNight: 'assets/hero-eye-glow.jpg'
+  },
+  story: { img: 'assets/hero-daisies.jpg', alt: ['Mulher de olhos fechados entre margaridas brancas', 'Woman with closed eyes among white daisies', '흰 데이지 사이에서 눈을 감은 여성'] }
+};
+</script>
+<script src="assets/ng-core.js"></script>
+<script src="assets/ng-e.js"></script>
+</body>
+</html>

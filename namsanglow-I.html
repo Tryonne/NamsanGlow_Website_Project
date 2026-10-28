@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Namsan Glow · Folha</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Figtree:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;600&family=Noto+Serif+KR:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/ng-e.css">
+<style>
+/* I · Folha: E in the logo's leaf green, blush and gold, led by the ingredient picker */
+:root{
+  --bg:#F2EFE6; --bg-2:#E4E8DA; --paper:#FBFAF5; --ink:#1F2B24; --muted:#56615A; --line:#D7D9CB;
+  --accent:#B08A3E; --accent-ink:#74551A; --accent-soft:#E3C27E;
+  --deep:#22362B; --deep-2:#2B4335; --on-deep:#EEF0E6; --on-deep-muted:#C2CDBE;
+  --hero-bg:radial-gradient(90% 80% at 75% 35%,#2F4A3A 0%,#22362B 60%); --hero-solid:#22362B; --hero-ink:#EEF0E6; --hero-muted:#C6D0C1;
+  --t1:#EED3CB; --t2:#D5E0CF; --t3:#F1E6CF; --t4:#DDE8E0; --t5:#F4ECE4;
+  --shade:31,43,36;
+}
+</style>
+</head>
+<body>
+<p class="ann" id="ann"></p>
+<header class="hdr" id="hdr"></header>
+<div popover id="langMenu" class="lang-menu"></div>
+<dialog class="mnav" id="mnav" closedby="any"></dialog>
+<main id="app"></main>
+<footer class="ft" id="ft"></footer>
+
+<script>
+window.NG_MOCK = 'I';
+window.NG_E = {
+  mock: 'I', label: 'Folha', dayNight: false,
+  sections: ['hero', 'brands', 'lab', 'ritual', 'quiz', 'new', 'story', 'quotes'],
+  hero: {
+    h1: ['O que a sua pele precisa, gota a gota.', 'What your skin needs, drop by drop.', '피부에 필요한 것을 한 방울씩.'],
+    lead: ['Cosmética coreana escolhida em Braga. Conheça cada ingrediente e o produto certo para ele.', 'Korean skincare chosen in Braga. Get to know each ingredient and the right product for it.', '브라가에서 고른 한국 화장품. 성분을 알아보고 꼭 맞는 제품을 찾아보세요.'],
+    img: 'assets/banner-ingredientes.jpg'
+  },
+  story: { img: 'assets/hero-hands-lotion.jpg', alt: ['Mãos a aplicar creme', 'Hands applying cream', '크림을 바르는 손'] }
+};
+</script>
+<script src="assets/ng-core.js"></script>
+<script src="assets/ng-e.js"></script>
+</body>
+</html>
