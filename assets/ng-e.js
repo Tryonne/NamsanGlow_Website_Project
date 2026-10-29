@@ -426,7 +426,7 @@
       </div>
       <div class="ftags" id="fTags">${activeTags()}</div>
       <div id="shopGrid">${shopGrid()}</div>
-      <dialog class="fsheet" id="fSheet" closedby="any" aria-labelledby="fs-title">${filterSheet()}</dialog>
+      <dialog class="fsheet" id="fSheet" closedby="any" aria-labelledby="fs-title" data-lenis-prevent>${filterSheet()}</dialog>
     </div><div style="height:96px"></div>`;
   };
 
@@ -486,94 +486,90 @@
   </div>`;
 
   /* ---------- Checkout ---------- */
-  // A focused page: no site header or footer, form on the left, order summary on a tinted column on the right
+  // One page, as in mock A: contact, delivery and payment together, the order in a soft card on the right
   const SHIP = { std: 3.9, exp: 6.9 };
-  const ck = { step: 1, d: {}, ship: 'std', pay: 'mbway', promo: false, order: null };
+  const ck = { d: {}, ship: 'std', pay: 'mbway', promo: false, order: null };
   const ckTotals = () => {
     const sub = cart.total(), disc = ck.promo ? Math.round(sub * 10) / 100 : 0;
     const ship = ck.ship === 'std' ? (sub >= NG.FREE_SHIP ? 0 : SHIP.std) : SHIP.exp;
     return { sub, disc, ship, total: sub - disc + ship };
   };
   const PAY_MARKS = {
-    mbway: '<svg width="58" height="22" viewBox="0 0 58 22" aria-hidden="true"><rect x=".5" y=".5" width="57" height="21" rx="3" fill="#fff" stroke="#DDD5CC"/><text x="29" y="15" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="10" font-weight="700" fill="#D60510">MB WAY</text></svg>',
-    mb: '<svg width="34" height="22" viewBox="0 0 34 22" aria-hidden="true"><rect width="34" height="22" rx="3" fill="#2B5DA8"/><text x="17" y="15" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="10" font-weight="700" fill="#fff">MB</text></svg>',
-    card: '<svg width="40" height="22" viewBox="0 0 40 22" aria-hidden="true"><rect x=".5" y=".5" width="39" height="21" rx="3" fill="#fff" stroke="#DDD5CC"/><text x="20" y="15" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="10" font-style="italic" font-weight="800" fill="#1A1F71">VISA</text></svg><svg width="34" height="22" viewBox="0 0 34 22" aria-hidden="true"><rect x=".5" y=".5" width="33" height="21" rx="3" fill="#fff" stroke="#DDD5CC"/><circle cx="14" cy="11" r="6" fill="#EB001B"/><circle cx="20" cy="11" r="6" fill="#F79E1B" fill-opacity=".9"/></svg>'
+    mbway: '<svg width="58" height="22" viewBox="0 0 58 22" aria-hidden="true"><rect x=".5" y=".5" width="57" height="21" rx="4" fill="#fff" stroke="#DDD5CC"/><text x="29" y="15" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="10" font-weight="700" fill="#D60510">MB WAY</text></svg>',
+    mb: '<svg width="34" height="22" viewBox="0 0 34 22" aria-hidden="true"><rect width="34" height="22" rx="4" fill="#2B5DA8"/><text x="17" y="15" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="10" font-weight="700" fill="#fff">MB</text></svg>',
+    card: '<svg width="40" height="22" viewBox="0 0 40 22" aria-hidden="true"><rect x=".5" y=".5" width="39" height="21" rx="4" fill="#fff" stroke="#DDD5CC"/><text x="20" y="15" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="10" font-style="italic" font-weight="800" fill="#1A1F71">VISA</text></svg><svg width="34" height="22" viewBox="0 0 34 22" aria-hidden="true"><rect x=".5" y=".5" width="33" height="21" rx="4" fill="#fff" stroke="#DDD5CC"/><circle cx="14" cy="11" r="6" fill="#EB001B"/><circle cx="20" cy="11" r="6" fill="#F79E1B" fill-opacity=".9"/></svg>'
   };
-  const ff = (id, label, attrs, err, hint) => `<div class="ff"><input id="f-${id}" name="${id}" placeholder=" " value="${esc(ck.d[id] || '')}" ${attrs}><label for="f-${id}">${label}${hint ? ` <small>${hint}</small>` : ''}</label><span class="err">${err}</span></div>`;
-  const ckTop = () => `<div class="ck-top"><a class="logo" href="#/inicio"><img src="assets/logo-badge.png" alt=""><span>Namsan Glow</span></a></div>`;
-  const crumbs = () => {
-    const names = [L('Carrinho', 'Bag', '장바구니'), L('Informação', 'Information', '정보'), L('Envio', 'Shipping', '배송'), L('Pagamento', 'Payment', '결제')];
-    return `<ol class="crumbs" id="ckSteps">${names.map((n, i) => {
-      if (i === 0) return `<li><button type="button" data-open-bag>${n}</button></li>`;
-      if (i < ck.step) return `<li><button type="button" data-ck-go="${i}">${n}</button></li>`;
-      return `<li${i === ck.step ? ' aria-current="step"' : ''}>${n}</li>`;
-    }).join('')}</ol>`;
+  const fld = (id, label, attrs, err, extra = {}) => {
+    const req = /\brequired\b/.test(attrs);
+    return `<div class="fld${extra.cls ? ' ' + extra.cls : ''}"><label for="f-${id}">${label}${req ? '<i aria-hidden="true"> *</i>' : ''}${extra.hint ? ` <small>${extra.hint}</small>` : ''}</label>
+      <input id="f-${id}" name="${id}" value="${esc(ck.d[id] || '')}" ${extra.ph ? `placeholder="${extra.ph}"` : ''} ${attrs} aria-describedby="e-${id}"><span class="err" id="e-${id}">${err}</span></div>`;
   };
-  const shipName = () => ck.ship === 'std' ? L('CTT standard, 2 a 3 dias úteis', 'CTT standard, 2 to 3 business days', 'CTT 일반 배송, 영업일 2~3일') : L('CTT expresso, dia útil seguinte', 'CTT express, next business day', 'CTT 특급 배송, 다음 영업일');
-  const review = () => {
-    const d = ck.d, t = ckTotals();
-    const rowR = (k, v, go) => `<div><span>${k}</span><p>${v}</p><button class="lnk" type="button" data-ck-go="${go}">${L('Alterar', 'Change', '변경')}</button></div>`;
-    return `<div class="review">
-      ${rowR(L('Contacto', 'Contact', '연락처'), esc(d.email || ''), 1)}
-      ${rowR(L('Enviar para', 'Ship to', '배송지'), `${esc(d.morada || '')}, ${esc(d.cp || '')} ${esc(d.cidade || '')}`, 1)}
-      ${ck.step > 2 ? rowR(L('Método', 'Method', '배송 방법'), `${shipName()}, ${t.ship ? money(t.ship) : L('grátis', 'free', '무료')}`, 2) : ''}
-    </div>`;
-  };
+  const ckSteps = () => `<ol class="ck-steps">
+      <li class="done"><span aria-hidden="true">✓</span>${L('Carrinho', 'Bag', '장바구니')}</li>
+      <li class="cur" aria-current="step"><span aria-hidden="true">2</span>${L('Dados e pagamento', 'Details and payment', '정보 및 결제')}</li>
+      <li><span aria-hidden="true">3</span>${L('Confirmação', 'Confirmation', '주문 완료')}</li></ol>`;
   const ckForm = () => {
     const t = ckTotals();
-    if (ck.step === 1) return `<form id="ckForm" novalidate>
-      <h2 class="ck-h">${L('Contacto', 'Contact', '연락처')}</h2>
-      ${ff('email', 'Email', 'type="email" autocomplete="email" required', L('Indique um email válido, por exemplo nome@email.pt.', 'Enter a valid email, for example name@email.com.', '올바른 이메일을 입력하세요.'))}
-      <label class="chk"><input type="checkbox" name="news"><span>${L('Quero receber novidades e ofertas por email', 'Email me news and offers', '소식과 혜택을 이메일로 받겠습니다')}</span></label>
-      <h2 class="ck-h">${L('Morada de envio', 'Shipping address', '배송지')}</h2>
-      <div class="ff-row">${ff('nome', L('Nome', 'First name', '이름'), 'autocomplete="given-name" required', L('Indique o nome.', 'Enter your first name.', '이름을 입력하세요.'))}${ff('apelido', L('Apelido', 'Last name', '성'), 'autocomplete="family-name" required', L('Indique o apelido.', 'Enter your last name.', '성을 입력하세요.'))}</div>
-      ${ff('morada', L('Morada', 'Address', '주소'), 'autocomplete="street-address" required', L('Indique a morada.', 'Enter your address.', '주소를 입력하세요.'))}
-      <div class="ff-row">${ff('cp', L('Código postal', 'Postcode', '우편번호'), 'autocomplete="postal-code" required pattern="[0-9]{4}-[0-9]{3}" inputmode="numeric"', L('Use o formato 0000-000.', 'Use the format 0000-000.', '0000-000 형식으로 입력하세요.'))}${ff('cidade', L('Localidade', 'Town', '도시'), 'autocomplete="address-level2" required', L('Indique a localidade.', 'Enter your town.', '도시를 입력하세요.'))}</div>
-      <div class="ff-row">${ff('tel', L('Telemóvel', 'Mobile', '휴대전화'), 'type="tel" autocomplete="tel" required pattern="[+0-9 ]{9,}"', L('Indique um número com 9 dígitos.', 'Enter a 9-digit number.', '9자리 번호를 입력하세요.'))}${ff('nif', 'NIF', 'inputmode="numeric" pattern="[0-9]{9}"', L('O NIF tem 9 dígitos.', 'The tax number has 9 digits.', '납세자 번호는 9자리입니다.'), L('opcional', 'optional', '선택'))}</div>
-      <div class="ck-actions"><a class="ck-back" href="#/loja">${I.prev}${L('Voltar à loja', 'Back to shop', '쇼핑으로 돌아가기')}</a><button class="btn" type="submit">${L('Continuar para o envio', 'Continue to shipping', '배송 선택으로')}</button></div>
-    </form>`;
-    if (ck.step === 2) return `${review()}<form id="ckForm">
-      <h2 class="ck-h">${L('Método de envio', 'Shipping method', '배송 방법')}</h2>
-      <div class="radios">
-        <label class="rad"><input type="radio" name="ship" value="std" ${ck.ship === 'std' ? 'checked' : ''}><span class="rlbl"><b>${L('CTT standard', 'CTT standard', 'CTT 일반 배송')}</b><small>${L('2 a 3 dias úteis', '2 to 3 business days', '영업일 2~3일')}</small></span><span class="pr">${t.sub >= NG.FREE_SHIP ? L('Grátis', 'Free', '무료') : money(SHIP.std)}</span></label>
-        <label class="rad"><input type="radio" name="ship" value="exp" ${ck.ship === 'exp' ? 'checked' : ''}><span class="rlbl"><b>${L('CTT expresso', 'CTT express', 'CTT 특급 배송')}</b><small>${L('No dia útil seguinte', 'Next business day', '다음 영업일')}</small></span><span class="pr">${money(SHIP.exp)}</span></label>
+    const opt = (name, value, title, sub, right) => `<label class="opt"><input type="radio" name="${name}" value="${value}" ${ck[name === 'ship' ? 'ship' : 'pay'] === value ? 'checked' : ''}><span class="ot"><b>${title}</b><small>${sub}</small></span>${right}</label>`;
+    const more = inner => `<div class="opt-more"><div><div class="opt-more-in">${inner}</div></div></div>`;
+    return `<form id="ckForm" novalidate>
+      <section class="ck-sec" aria-labelledby="ck-h1"><h2 id="ck-h1"><span>01</span>${L('Contacto', 'Contact', '연락처')}</h2>
+        <div class="row2">${fld('email', 'Email', 'type="email" autocomplete="email" required', L('Indique um email válido.', 'Enter a valid email.', '올바른 이메일을 입력하세요.'), { ph: L('nome@exemplo.pt', 'name@example.com', 'name@example.com') })}
+          ${fld('tel', L('Telemóvel', 'Mobile', '휴대전화'), 'type="tel" autocomplete="tel" required pattern="[+0-9 ]{9,}"', L('Indique um número com 9 dígitos.', 'Enter a 9-digit number.', '9자리 번호를 입력하세요.'), { ph: '912 345 678' })}</div>
+        <label class="chk"><input type="checkbox" name="news"><span>${L('Quero receber novidades e ofertas por email', 'Email me news and offers', '소식과 혜택을 이메일로 받겠습니다')}</span></label>
+      </section>
+      <section class="ck-sec" aria-labelledby="ck-h2"><h2 id="ck-h2"><span>02</span>${L('Entrega', 'Delivery', '배송')}</h2>
+        <div class="opt-grid" role="radiogroup" aria-label="${L('Método de envio', 'Shipping method', '배송 방법')}">
+          ${opt('ship', 'std', L('CTT standard', 'CTT standard', 'CTT 일반 배송'), L('2 a 3 dias úteis', '2 to 3 business days', '영업일 2~3일'), `<span class="pr" id="stdPrice">${t.sub >= NG.FREE_SHIP ? L('Grátis', 'Free', '무료') : money(SHIP.std)}</span>`)}
+          ${opt('ship', 'exp', L('CTT expresso', 'CTT express', 'CTT 특급 배송'), L('No dia útil seguinte', 'Next business day', '다음 영업일'), `<span class="pr">${money(SHIP.exp)}</span>`)}
+        </div>
+        <div class="row2">${fld('nome', L('Nome', 'First name', '이름'), 'autocomplete="given-name" required', L('Indique o nome.', 'Enter your first name.', '이름을 입력하세요.'))}${fld('apelido', L('Apelido', 'Last name', '성'), 'autocomplete="family-name" required', L('Indique o apelido.', 'Enter your last name.', '성을 입력하세요.'))}</div>
+        ${fld('morada', L('Morada', 'Address', '주소'), 'autocomplete="street-address" required', L('Indique a morada.', 'Enter your address.', '주소를 입력하세요.'), { ph: L('Rua, número, andar', 'Street, number, floor', '도로명, 번지, 층') })}
+        <div class="row3">${fld('cp', L('Código postal', 'Postcode', '우편번호'), 'autocomplete="postal-code" required pattern="[0-9]{4}-[0-9]{3}" inputmode="numeric"', L('Use o formato 0000-000.', 'Use the format 0000-000.', '0000-000 형식으로 입력하세요.'), { ph: '4700-000' })}
+          ${fld('cidade', L('Localidade', 'Town', '도시'), 'autocomplete="address-level2" required', L('Indique a localidade.', 'Enter your town.', '도시를 입력하세요.'))}
+          <div class="fld"><label for="f-pais">${L('País', 'Country', '국가')}</label><select id="f-pais" name="pais" autocomplete="country-name"><option>Portugal</option></select></div></div>
+        ${fld('nif', 'NIF', 'inputmode="numeric" pattern="[0-9]{9}"', L('O NIF tem 9 dígitos.', 'The tax number has 9 digits.', '납세자 번호는 9자리입니다.'), { hint: L('opcional, para a fatura', 'optional, for the invoice', '선택, 영수증용'), cls: 'half' })}
+      </section>
+      <section class="ck-sec" aria-labelledby="ck-h3"><h2 id="ck-h3"><span>03</span>${L('Pagamento', 'Payment', '결제')}</h2>
+        <p class="ck-sub">${I.lock}${L('Todas as transações são seguras e encriptadas.', 'All transactions are secure and encrypted.', '모든 거래는 안전하게 암호화됩니다.')}</p>
+        <div class="opt-list" role="radiogroup" aria-label="${L('Método de pagamento', 'Payment method', '결제 방법')}">
+          ${opt('pay', 'mbway', 'MB WAY', L('Pague com o telemóvel', 'Pay with your phone', '휴대전화로 결제'), `<span class="marks">${PAY_MARKS.mbway}</span>`)}
+          ${more(`<p>${L('Vai receber um pedido de pagamento na app MB WAY.', 'You will get a payment request in the MB WAY app.', 'MB WAY 앱으로 결제 요청이 전송됩니다.')}</p>${fld('mbway', L('Número MB WAY', 'MB WAY number', 'MB WAY 번호'), 'type="tel" pattern="[+0-9 ]{9,}"', L('Indique o número associado ao MB WAY.', 'Enter the number linked to MB WAY.', 'MB WAY에 연결된 번호를 입력하세요.'), { ph: '912 345 678' })}`)}
+          ${opt('pay', 'mb', L('Referência Multibanco', 'Multibanco reference', 'Multibanco 결제 번호'), L('Pague no multibanco ou no homebanking', 'Pay at an ATM or in online banking', 'ATM 또는 온라인 뱅킹으로 결제'), `<span class="marks">${PAY_MARKS.mb}</span>`)}
+          ${more(`<p>${L('Enviamos a referência por email logo a seguir. É válida durante 48 horas.', 'We email you the reference right away. It is valid for 48 hours.', '결제 번호를 바로 이메일로 보내 드립니다. 48시간 동안 유효합니다.')}</p>`)}
+          ${opt('pay', 'card', L('Cartão de crédito ou débito', 'Credit or debit card', '신용카드 또는 체크카드'), 'Visa, Mastercard', `<span class="marks">${PAY_MARKS.card}</span>`)}
+          ${more(`<p>${L('Depois de clicar em pagar, abre a página segura do banco para concluir.', 'After you click pay, the bank’s secure page opens to finish.', '결제를 누르면 은행의 보안 페이지가 열립니다.')}</p>`)}
+        </div>
+      </section>
+      <div class="ck-final">
+        <label class="chk terms"><input type="checkbox" name="terms" required aria-describedby="e-terms"><span>${L('Li e aceito os <a href="#/sobre">termos e condições</a> e a <a href="#/sobre">política de privacidade</a>.', 'I have read and accept the <a href="#/sobre">terms and conditions</a> and the <a href="#/sobre">privacy policy</a>.', '<a href="#/sobre">이용 약관</a> 및 <a href="#/sobre">개인정보 처리방침</a>을 읽고 동의합니다.')}</span></label>
+        <span class="err" id="e-terms">${L('Aceite os termos para continuar.', 'Accept the terms to continue.', '계속하려면 약관에 동의하세요.')}</span>
+        <button class="btn btn-wide" type="submit" id="payBtn">${L(`Pagar ${money(t.total)}`, `Pay ${money(t.total)}`, `${money(t.total)} 결제하기`)}</button>
+        <p class="ck-foot">${L('Protótipo: nenhum pagamento é feito e os dados não saem do browser.', 'Prototype: no payment is taken and your details stay in the browser.', '프로토타입입니다. 실제 결제는 이루어지지 않습니다.')}</p>
       </div>
-      <div class="ck-actions"><button class="ck-back" type="button" data-ck-go="1">${I.prev}${L('Voltar à informação', 'Back to information', '정보로 돌아가기')}</button><button class="btn" type="submit">${L('Continuar para o pagamento', 'Continue to payment', '결제로')}</button></div>
-    </form>`;
-    return `${review()}<form id="ckForm">
-      <h2 class="ck-h">${L('Pagamento', 'Payment', '결제')}</h2>
-      <p class="ck-sub">${I.lock}${L('Todas as transações são seguras e encriptadas.', 'All transactions are secure and encrypted.', '모든 거래는 안전하게 암호화됩니다.')}</p>
-      <div class="radios">
-        <label class="rad"><input type="radio" name="pay" value="mbway" ${ck.pay === 'mbway' ? 'checked' : ''}><span class="rlbl"><b>MB WAY</b></span><span class="marks">${PAY_MARKS.mbway}</span></label>
-        <div class="rad-more">${L(`Vai receber um pedido de pagamento na app MB WAY, no número ${esc(ck.d.tel || '')}.`, `You will get a payment request in the MB WAY app on ${esc(ck.d.tel || '')}.`, `${esc(ck.d.tel || '')} 번호의 MB WAY 앱으로 결제 요청이 전송됩니다.`)}</div>
-        <label class="rad"><input type="radio" name="pay" value="mb" ${ck.pay === 'mb' ? 'checked' : ''}><span class="rlbl"><b>${L('Referência Multibanco', 'Multibanco reference', 'Multibanco 결제 번호')}</b></span><span class="marks">${PAY_MARKS.mb}</span></label>
-        <div class="rad-more">${L('Enviamos a referência por email. É válida durante 48 horas.', 'We email you the reference. It is valid for 48 hours.', '결제 번호를 이메일로 보내 드립니다. 48시간 동안 유효합니다.')}</div>
-        <label class="rad"><input type="radio" name="pay" value="card" ${ck.pay === 'card' ? 'checked' : ''}><span class="rlbl"><b>${L('Cartão de crédito ou débito', 'Credit or debit card', '신용카드 또는 체크카드')}</b></span><span class="marks">${PAY_MARKS.card}</span></label>
-        <div class="rad-more">${L('Depois de clicar em pagar, abre a página segura do banco.', 'After you click pay, the bank’s secure page opens.', '결제를 누르면 은행의 보안 페이지가 열립니다.')}</div>
-      </div>
-      <button class="btn btn-wide" type="submit" id="payBtn">${L(`Pagar ${money(t.total)}`, `Pay ${money(t.total)}`, `${money(t.total)} 결제하기`)}</button>
-      <div class="ck-actions"><button class="ck-back" type="button" data-ck-go="2">${I.prev}${L('Voltar ao envio', 'Back to shipping', '배송으로 돌아가기')}</button></div>
     </form>`;
   };
   const summary = () => {
     const t = ckTotals(), left = Math.max(0, NG.FREE_SHIP - t.sub);
-    return `<ul class="sum-items">${cart.items().map(it => { const p = byId[it.id]; return `<li><span class="th" style="background:${tile(p)}"><img src="${p.img}" alt=""><em>${it.q}</em></span><span class="nm"><small>${esc(p.b)}</small>${esc(p.n)}</span><b>${money(p.p * it.q)}</b></li>`; }).join('')}</ul>
-      <form class="promo" id="promoForm"><div class="ff"><input id="promo" placeholder=" " value="${ck.promo ? 'WELCOME10' : ''}" autocomplete="off"><label for="promo">${L('Código de desconto', 'Discount code', '할인 코드')}</label></div><button type="submit">${L('Aplicar', 'Apply', '적용')}</button></form>
+    return `<ul class="sum-items">${cart.items().map(it => { const p = byId[it.id]; return `<li><span class="th"><img src="${p.img}" alt=""><em>${it.q}</em></span><span class="nm"><small>${esc(p.b)}</small>${esc(p.n)}</span><b>${money(p.p * it.q)}</b></li>`; }).join('')}</ul>
+      <form class="promo" id="promoForm"><label class="vh" for="promo">${L('Código de desconto', 'Discount code', '할인 코드')}</label><input id="promo" placeholder="${L('Código de desconto', 'Discount code', '할인 코드')}" value="${ck.promo ? 'WELCOME10' : ''}" autocomplete="off"><button type="submit">${L('Aplicar', 'Apply', '적용')}</button></form>
       <p class="promo-msg ${ck.promo ? 'ok' : ''}" id="promoMsg" role="status">${ck.promo ? L('WELCOME10 aplicado: 10% de desconto.', 'WELCOME10 applied: 10% off.', 'WELCOME10 적용: 10% 할인.') : ''}</p>
       <dl class="tot">
         <div><dt>${L('Subtotal', 'Subtotal', '소계')}</dt><dd>${money(t.sub)}</dd></div>
         ${t.disc ? `<div class="disc"><dt>${L('Desconto WELCOME10', 'WELCOME10 discount', 'WELCOME10 할인')}</dt><dd>−${money(t.disc)}</dd></div>` : ''}
-        <div><dt>${L('Envio', 'Shipping', '배송비')}</dt><dd>${ck.step < 2 ? L('Calculado no passo seguinte', 'Calculated next', '다음 단계에서 계산') : t.ship ? money(t.ship) : L('Grátis', 'Free', '무료')}</dd></div>
-        <div class="big"><dt>${L('Total', 'Total', '합계')}</dt><dd><small>EUR</small>${money(t.total)}</dd></div>
+        <div><dt>${L('Envio', 'Shipping', '배송비')}</dt><dd>${t.ship ? money(t.ship) : L('Grátis', 'Free', '무료')}</dd></div>
+        <div class="big"><dt>${L('Total', 'Total', '합계')}</dt><dd>${money(t.total)}</dd></div>
       </dl>
       ${left > 0 ? `<p class="ship-note">${L(`Faltam ${money(left)} para o envio grátis.`, `${money(left)} away from free shipping.`, `무료 배송까지 ${money(left)} 남았습니다.`)}<span class="ship-bar"><span style="--p:${Math.min(1, t.sub / NG.FREE_SHIP)}"></span></span></p>` : ''}`;
   };
   const sumBox = () => {
     const t = ckTotals();
-    return `<details class="sum" id="ckSumBox"><summary><span>${L('Ver resumo da encomenda', 'Show order summary', '주문 요약 보기')}</span><b id="ckSumTot">${money(t.total)}</b></summary><div id="ckSum">${summary()}</div></details>`;
+    return `<details class="sum" id="ckSumBox"><summary><span>${L('Resumo da encomenda', 'Order summary', '주문 요약')}</span><b id="ckSumTot">${money(t.total)}</b></summary>
+      <h2 class="sum-h">${L('Resumo da encomenda', 'Order summary', '주문 요약')}</h2><div id="ckSum">${summary()}</div></details>
+      <ul class="trust"><li>${I.lock}${L('Pagamento seguro', 'Secure payment', '안전한 결제')}</li><li>${I.truck}${L('Enviado de Braga em 1 dia útil', 'Ships from Braga within 1 business day', '영업일 1일 내 브라가에서 발송')}</li><li>${I.chat}<a href="https://wa.me/351966700740">${L('Dúvidas? Fale connosco no WhatsApp', 'Questions? Message us on WhatsApp', '문의는 WhatsApp으로')}</a></li></ul>`;
   };
   const checkout = () => {
-    if (ck.order && cart.count()) { ck.order = null; ck.step = 1; }
+    if (ck.order && cart.count()) ck.order = null;
     if (ck.order) {
       const o = ck.order;
       const steps = [
@@ -581,26 +577,26 @@
         [L('Preparada em Braga', 'Packed in Braga', '브라가에서 포장'), L('No próximo dia útil', 'Next business day', '다음 영업일')],
         [L('Enviada pelos CTT', 'Shipped with CTT', 'CTT 발송'), o.ship === 'std' ? L('Chega em 2 a 3 dias úteis', 'Arrives in 2 to 3 business days', '영업일 2~3일 후 도착') : L('Chega no dia útil seguinte', 'Arrives the next business day', '다음 영업일 도착')]
       ];
-      return `<div class="ck-done">${ckTop()}
-        <div class="done-in">
+      return `<div class="wrap ck-done"><div class="done-in">
+          <svg class="done-mark" width="56" height="74" viewBox="0 0 24 32" aria-hidden="true"><path d="M12 1s10 12 10 19a10 10 0 0 1-20 0C2 13 12 1 12 1z" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width=".8"/><path class="tick" d="M7.5 19.5l3 3 6-6" fill="none" stroke="#2A1D15" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/></svg>
           <p class="done-ord">${L('Encomenda', 'Order', '주문')} ${o.id}</p>
           <h1>${L(`Obrigada, ${esc(o.nome)}`, `Thank you, ${esc(o.nome)}`, `${esc(o.nome)}님, 감사합니다`)}</h1>
           <p class="done-lead">${o.pay === 'mbway' ? L('Confirme o pagamento na app MB WAY para concluir.', 'Confirm the payment in the MB WAY app to finish.', 'MB WAY 앱에서 결제를 승인하면 완료됩니다.') : o.pay === 'mb' ? L('A referência Multibanco já está no seu email.', 'The Multibanco reference is in your inbox.', 'Multibanco 결제 번호를 이메일로 보냈습니다.') : L('O pagamento foi recebido.', 'Your payment was received.', '결제가 완료되었습니다.')} ${L('Enviámos a confirmação para', 'We sent the confirmation to', '확인 메일을 보냈습니다:')} <b>${esc(o.email)}</b>.</p>
           <ol class="timeline">${steps.map((s, i) => `<li class="${i === 0 ? 'done' : ''}"><b>${s[0]}</b><span>${s[1]}</span></li>`).join('')}</ol>
           <div class="done-box2">
-            <ul class="sum-items">${o.items.map(it => { const p = byId[it.id]; return `<li><span class="th" style="background:${tile(p)}"><img src="${p.img}" alt=""><em>${it.q}</em></span><span class="nm"><small>${esc(p.b)}</small>${esc(p.n)}</span><b>${money(p.p * it.q)}</b></li>`; }).join('')}</ul>
+            <ul class="sum-items">${o.items.map(it => { const p = byId[it.id]; return `<li><span class="th"><img src="${p.img}" alt=""><em>${it.q}</em></span><span class="nm"><small>${esc(p.b)}</small>${esc(p.n)}</span><b>${money(p.p * it.q)}</b></li>`; }).join('')}</ul>
             <dl class="tot"><div><dt>${L('Enviar para', 'Ship to', '배송지')}</dt><dd>${esc(o.addr)}</dd></div><div class="big"><dt>${L('Total', 'Total', '합계')}</dt><dd>${money(o.total)}</dd></div></dl>
           </div>
           <div class="done-cta"><a class="btn" href="#/loja">${L('Continuar a comprar', 'Keep shopping', '쇼핑 계속하기')}</a><a class="lnk" href="https://wa.me/351966700740">${L('Dúvidas? Fale connosco', 'Questions? Talk to us', '문의하기')}</a></div>
         </div></div>`;
     }
     if (!cart.count()) {
-      return `<div class="ck-done">${ckTop()}<div class="done-in"><h1>${L('O carrinho está vazio', 'Your bag is empty', '장바구니가 비어 있습니다')}</h1><p class="done-lead">${L('Adicione produtos para finalizar a compra.', 'Add products to check out.', '결제하려면 제품을 담아 주세요.')}</p><div class="done-cta"><a class="btn" href="#/loja">${L('Ver a loja', 'Browse the shop', '쇼핑하기')}</a></div></div></div>`;
+      return `<div class="wrap ck-done"><div class="done-in done-empty"><span class="empty-ic" aria-hidden="true">${I.bag}</span><h1>${L('O carrinho está vazio', 'Your bag is empty', '장바구니가 비어 있습니다')}</h1><p class="done-lead">${L('Adicione produtos para finalizar a compra.', 'Add products to check out.', '결제하려면 제품을 담아 주세요.')}</p><div class="done-cta"><a class="btn" href="#/loja">${L('Ver a loja', 'Browse the shop', '쇼핑하기')}</a></div></div></div>`;
     }
-    return `<div class="ck2">${ckTop()}
-      <div class="ck-main"><h1 class="vh">${L('Finalizar compra', 'Checkout', '결제')}</h1>${crumbs()}<div id="ckMain">${ckForm()}</div>
-        <p class="ck-foot">${L('Protótipo: nenhum pagamento é feito e os dados não saem do browser.', 'Prototype: no payment is taken and your details stay in the browser.', '프로토타입입니다. 실제 결제는 이루어지지 않습니다.')}</p></div>
-      <aside class="ck-side" aria-label="${L('Resumo da encomenda', 'Order summary', '주문 요약')}">${sumBox()}</aside>
+    return `<div class="wrap ck">
+      <a class="ck-back" href="#/loja">${I.prev}${L('Continuar a comprar', 'Continue shopping', '쇼핑 계속하기')}</a>
+      <div class="ck-head"><h1>${L('Finalizar compra', 'Checkout', '결제')}</h1>${ckSteps()}</div>
+      <div class="ck-grid"><div class="ck-main">${ckForm()}</div><aside class="ck-side" aria-label="${L('Resumo da encomenda', 'Order summary', '주문 요약')}">${sumBox()}</aside></div>
     </div>`;
   };
   const refreshSum = () => {
@@ -610,16 +606,6 @@
     const pay = $('#payBtn'); if (pay) pay.textContent = L(`Pagar ${money(t.total)}`, `Pay ${money(t.total)}`, `${money(t.total)} 결제하기`);
   };
   const openSum = () => { const b = $('#ckSumBox'); if (b && matchMedia('(min-width: 901px)').matches) b.open = true; };
-  const redrawCk = () => {
-    vt(() => {
-      $('#ckMain').innerHTML = ckForm();
-      $('#ckSum').innerHTML = summary();
-      $('#ckSumTot').textContent = money(ckTotals().total);
-      $('#ckSteps').outerHTML = crumbs();
-    });
-    scrollTo({ top: 0, behavior: reduce() ? 'auto' : 'smooth' });
-    requestAnimationFrame(() => { const f = $('#ckMain input:not([type=checkbox]), #ckMain .rad input'); if (f) f.focus({ preventScroll: true }); });
-  };
 
   /* ---------- Ritual scroll ---------- */
   let ritualOff = null;
@@ -649,7 +635,7 @@
     list.onclick = e => {
       const b = e.target.closest('[data-step]'); if (!b) return;
       const span = sec.offsetHeight - innerHeight;
-      scrollTo({ top: sec.getBoundingClientRect().top + scrollY + span * (Number(b.dataset.step) + .5) / 5, behavior: reduce() ? 'auto' : 'smooth' });
+      scrollToY(sec.getBoundingClientRect().top + scrollY + span * (Number(b.dataset.step) + .5) / 5);
     };
     ritualOff = () => removeEventListener('scroll', onScroll);
     initRitual.redraw = () => {
@@ -680,6 +666,13 @@
     const next = e.key === 'Home' ? all[0] : e.key === 'End' ? all[all.length - 1] : all[(i + (['ArrowDown', 'ArrowRight'].includes(e.key) ? 1 : -1) + all.length) % all.length];
     next.focus(); selectIng(next);
   });
+
+  /* ---------- Scrolling helper (goes through Lenis when it is running) ---------- */
+  let lenis = null;
+  const scrollToY = (y, instant) => {
+    if (lenis) lenis.scrollTo(y, { immediate: !!instant || reduce(), duration: 1.1 });
+    else scrollTo({ top: y, behavior: instant || reduce() ? 'auto' : 'smooth' });
+  };
 
   /* ---------- Hero shine follows the pointer ---------- */
   const heroShine = () => {
@@ -815,8 +808,6 @@
     }
     if (t.closest('[data-masks]')) { shopState.masks = !shopState.masks; shopState.step = 0; refreshShop(); return; }
     if (t.closest('[data-reset]')) { Object.assign(shopState, { ing: '', step: 0, masks: false, brand: '', q: '' }); refreshShop(true); return; }
-    if (t.closest('[data-open-bag]')) { drawer.open(); return; }
-    const go = t.closest('[data-ck-go]'); if (go) { ck.step = Number(go.dataset.ckGo); redrawCk(); }
   });
   document.addEventListener('input', e => {
     if (e.target.id === 'q') { shopState.q = e.target.value; refreshShop(); }
@@ -827,7 +818,11 @@
     if (e.target.name === 'fbrand') { shopState.brand = e.target.value; refreshShop(); }
     if (e.target.id === 'sortSel') { shopState.sort = e.target.value; refreshShop(); }
     if (e.target.name === 'ship') { ck.ship = e.target.value; refreshSum(); }
-    if (e.target.name === 'pay') ck.pay = e.target.value;
+    if (e.target.name === 'pay') {
+      ck.pay = e.target.value;
+      // MB WAY usually uses the same phone: offer it pre-filled
+      const mb = $('#f-mbway'); if (mb && !mb.value && ck.d.tel) { mb.value = ck.d.tel; ck.d.mbway = ck.d.tel; }
+    }
   });
   document.addEventListener('submit', e => {
     if (e.target.id === 'promoForm') {
@@ -840,17 +835,20 @@
     }
     if (e.target.id === 'ckForm') {
       e.preventDefault();
-      if (ck.step === 1) {
-        const bad = [...e.target.querySelectorAll('.ff input')].filter(i => !i.checkValidity());
-        if (bad.length) { e.target.classList.add('tried'); bad[0].focus(); return; }
-        ck.step = 2; redrawCk(); return;
+      const form = e.target, mb = $('#f-mbway');
+      if (mb) { mb.required = ck.pay === 'mbway'; if (mb.required && !mb.value && ck.d.tel) { mb.value = ck.d.tel; ck.d.mbway = ck.d.tel; } }
+      const bad = [...form.querySelectorAll('input')].filter(i => !i.checkValidity());
+      if (bad.length) {
+        form.classList.add('tried');
+        bad[0].focus({ preventScroll: true });
+        scrollToY(bad[0].getBoundingClientRect().top + scrollY - innerHeight / 3);
+        return;
       }
-      if (ck.step === 2) { ck.step = 3; redrawCk(); return; }
       const t = ckTotals();
       ck.order = { id: 'NG-' + String(Date.now()).slice(-6), nome: ck.d.nome || '', email: ck.d.email || '', pay: ck.pay, ship: ck.ship, total: t.total,
         items: cart.items().map(it => ({ ...it })), addr: `${ck.d.morada || ''}, ${ck.d.cp || ''} ${ck.d.cidade || ''}` };
       cart.clear();
-      vt(() => { $('#app').innerHTML = checkout(); scrollTo(0, 0); });
+      vt(() => { $('#app').innerHTML = checkout(); scrollToY(0, true); });
       requestAnimationFrame(() => { const h = $('#app h1'); if (h) { h.tabIndex = -1; h.focus(); } });
     }
   });
@@ -865,16 +863,34 @@
 
   /* Header state */
   const hdr = $('#hdr');
+  // The header slips away while scrolling down and returns on the way up (not over the sticky routine)
+  let lastY = 0;
   const onScrollHdr = () => {
-    hdr.classList.toggle('scrolled', scrollY > 8);
-    const h = $('.hero');
+    const y = scrollY;
+    hdr.classList.toggle('scrolled', y > 8);
+    const h = $('.hero'), rt = $('#ritual')?.getBoundingClientRect();
     document.body.classList.toggle('on-hero', $('#app').dataset.page === 'inicio' && !!h && h.getBoundingClientRect().bottom > 76);
+    const inRitual = rt && rt.top < innerHeight && rt.bottom > 0;
+    if (y < 200 || y < lastY - 6 || inRitual || document.querySelector('dialog[open]')) document.body.classList.remove('hdr-hide');
+    else if (y > lastY + 6) document.body.classList.add('hdr-hide');
+    lastY = y;
   };
   addEventListener('scroll', onScrollHdr, { passive: true });
 
   /* ---------- Boot ---------- */
   let lastProduct = null, buyObs = null;
-  const drawer = NG.drawer({ onCheckout: () => { ck.order = null; ck.step = 1; location.hash = '#/checkout'; } });
+  const drawer = NG.drawer({ onCheckout: () => { ck.order = null; location.hash = '#/checkout'; } });
+
+  // Smooth, inertial scrolling (Lenis); panels that scroll on their own keep native scrolling
+  if (window.Lenis && !reduce()) {
+    lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 0.9 });
+    const raf = t => { lenis.raf(t); requestAnimationFrame(raf); };
+    requestAnimationFrame(raf);
+    [$('#mnav'), $('#langMenu'), drawer.el].forEach(el => el && el.setAttribute('data-lenis-prevent', ''));
+  }
+  // Photos fade in once they have loaded instead of popping in
+  document.addEventListener('load', e => { if (e.target.tagName === 'IMG') e.target.classList.add('ld'); }, true);
+  const markLoaded = () => document.querySelectorAll('img[loading="lazy"]').forEach(i => { if (i.complete) i.classList.add('ld'); });
   cart.on(() => { const b = $('#badge'); if (b) b.textContent = cart.count() || ''; });
   chrome();
   $('#langMenu').addEventListener('toggle', e => { if (e.newState === 'open') placeMenu(); });
@@ -892,7 +908,8 @@
       if (back) back.style.viewTransitionName = 'ptile';
     }
     lastProduct = r.name === 'produto' ? r.param : null;
-    document.body.classList.toggle('ck-mode', r.name === 'checkout');
+    markLoaded();
+    if (lenis && !first && !r.param) lenis.scrollTo(0, { immediate: true });
     if (r.name === 'checkout') openSum();
     // Sticky buy bar: shown once the main buy button has scrolled above the viewport
     if (buyObs) { removeEventListener('scroll', buyObs); buyObs = null; }

@@ -15,7 +15,7 @@
 <link rel="preload" as="image" href="assets/hero-gel-textures.webp" fetchpriority="high">
 <link rel="stylesheet" href="assets/ng-e.css">
 <style>
-/* H · Luz: E with a sunrise palette by day and candle-lit espresso by night */
+/* H · Luz: E with a sunrise palette by day and candle-lit charcoal by night */
 :root,[data-time="manha"]{
   --bg:#F7EFE6; --bg-2:#F0E2D2; --paper:#FFFAF4; --ink:#2E211A; --muted:#6B5749; --line:#E4D3C1;
   --accent:#B5803A; --accent-ink:#7E5518; --accent-soft:#EFC789;
@@ -25,11 +25,11 @@
   --shade:46,33,26;
 }
 [data-time="noite"]{
-  --bg:#1C1612; --bg-2:#271F19; --paper:#251D17; --ink:#F2E7D7; --muted:#BDAA91; --line:#3A2E25;
+  --bg:#151413; --bg-2:#1D1C1A; --paper:#1F1D1B; --ink:#F3EEE6; --muted:#B4ACA1; --line:#302D2A;
   --accent:#D4A955; --accent-ink:#E2BD72; --accent-soft:#E8C98A;
-  --deep:#120E0B; --deep-2:#1A1410; --on-deep:#F2E7D7; --on-deep-muted:#C6B399;
-  --hero-bg:radial-gradient(60% 75% at 72% 48%,#2A1C11 0%,#16100B 55%,#0D0A07 100%); --hero-solid:#110C09; --hero-ink:#F2E7D7; --hero-muted:#CDBBA2;
-  --t1:#E9D2C8; --t2:#EBD9B9; --t3:#D3DACA; --t4:#E2D3C2; --t5:#EFE5D8;
+  --deep:#0E0D0C; --deep-2:#141312; --on-deep:#F3EEE6; --on-deep-muted:#BDB4A8;
+  --hero-bg:radial-gradient(60% 75% at 72% 48%,#262017 0%,#131211 55%,#0B0B0A 100%); --hero-solid:#121110; --hero-ink:#F3EEE6; --hero-muted:#C9C0B3;
+  --t1:#E7DFD2; --t2:#E2D5BD; --t3:#DEDAD2; --t4:#D9CEBB; --t5:#ECE6DC;
   --shade:0,0,0;
   color-scheme:dark;
 }
@@ -55,9 +55,10 @@ window.NG_E = {
     leadNight: ['À noite, remover o dia e deixar a pele reparar. Cosmética coreana escolhida em Braga.', 'At night, wash off the day and let your skin repair. Korean skincare chosen in Braga.', '저녁에는 하루를 씻어내고 피부가 회복하도록 두세요. 브라가에서 고른 한국 화장품.'],
     img: 'assets/hero-gel-textures.webp', imgNight: 'assets/u-night-oil.webp'
   },
-  story: { img: 'assets/u-story-day.webp', alt: ['Mulher à luz natural, com a mão no rosto', 'Woman in natural light with a hand on her face', '자연광 속에서 얼굴에 손을 댄 여성'] }
+  story: { img: 'assets/u-story-day.webp', alt: ['Mulher de roupão a aplicar uma bruma facial ao espelho', 'Woman in a bathrobe applying a face mist at the mirror', '거울 앞에서 페이스 미스트를 뿌리는 여성'] }
 };
 </script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js" integrity="sha384-B2WBjDzEjJpYvhmi2UyEn7rektqkf5suS6sNoyyrf0EBAwBHdkiXxIlU0V5Ru2ed" crossorigin="anonymous"></script>
 <script src="assets/ng-core.js"></script>
 <script src="assets/ng-e.js"></script>
 </body>

@@ -164,7 +164,11 @@
       };
       const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (first || reduce || !document.startViewTransition) update();
-      else document.startViewTransition(update);
+      else {
+        // vt-page lets a mock style page changes apart from smaller in-page transitions
+        document.documentElement.classList.add('vt-page');
+        document.startViewTransition(update).finished.finally(() => document.documentElement.classList.remove('vt-page'));
+      }
       first = false;
     };
     window.addEventListener('hashchange', render);
