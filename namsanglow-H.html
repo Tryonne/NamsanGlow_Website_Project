@@ -12,9 +12,10 @@
   (() => { try { const s = sessionStorage.getItem('ng-time-H'), h = new Date().getHours();
     document.documentElement.dataset.time = s || (h >= 19 || h < 7 ? 'noite' : 'manha'); } catch (e) {} })();
 </script>
+<link rel="preload" as="image" href="assets/hero-gel-textures.webp" fetchpriority="high">
 <link rel="stylesheet" href="assets/ng-e.css">
 <style>
-/* H · Luz: E with a sunrise palette by day and a plum-espresso sky by night */
+/* H · Luz: E with a sunrise palette by day and candle-lit espresso by night */
 :root,[data-time="manha"]{
   --bg:#F7EFE6; --bg-2:#F0E2D2; --paper:#FFFAF4; --ink:#2E211A; --muted:#6B5749; --line:#E4D3C1;
   --accent:#B5803A; --accent-ink:#7E5518; --accent-soft:#EFC789;
@@ -52,9 +53,9 @@ window.NG_E = {
     h1: ['Uma rotina para o dia. Outra para a noite.', 'One routine for the day. Another for the night.', '낮을 위한 루틴, 밤을 위한 루틴.'],
     leadDay: ['De manhã, limpar com suavidade e proteger do sol. Cosmética coreana escolhida em Braga.', 'In the morning, cleanse gently and protect from the sun. Korean skincare chosen in Braga.', '아침에는 부드럽게 세안하고 햇빛으로부터 피부를 지키세요. 브라가에서 고른 한국 화장품.'],
     leadNight: ['À noite, remover o dia e deixar a pele reparar. Cosmética coreana escolhida em Braga.', 'At night, wash off the day and let your skin repair. Korean skincare chosen in Braga.', '저녁에는 하루를 씻어내고 피부가 회복하도록 두세요. 브라가에서 고른 한국 화장품.'],
-    img: 'assets/hero-gel-textures.jpg', imgNight: 'assets/hero-serum-plates.jpg'
+    img: 'assets/hero-gel-textures.webp', imgNight: 'assets/u-night-oil.webp'
   },
-  story: { img: 'assets/hero-daisies.jpg', alt: ['Mulher de olhos fechados entre margaridas brancas', 'Woman with closed eyes among white daisies', '흰 데이지 사이에서 눈을 감은 여성'] }
+  story: { img: 'assets/u-story-day.webp', alt: ['Mulher à luz natural, com a mão no rosto', 'Woman in natural light with a hand on her face', '자연광 속에서 얼굴에 손을 댄 여성'] }
 };
 </script>
 <script src="assets/ng-core.js"></script>

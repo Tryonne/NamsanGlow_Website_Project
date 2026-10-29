@@ -130,7 +130,7 @@
           <g class="drop-g">
             <g clip-path="url(#dropClip)">
               <image class="drop-img day" href="${C.hero.img}" x="-90" y="10" width="580" height="580" preserveAspectRatio="xMidYMid slice"/>
-              ${C.hero.imgNight ? `<image class="drop-img night" href="${C.hero.imgNight}" x="-300" y="-20" width="680" height="680" preserveAspectRatio="xMidYMid slice"/>` : ''}
+              ${C.hero.imgNight ? `<image class="drop-img night" href="${C.hero.imgNight}" x="-60" y="0" width="520" height="620" preserveAspectRatio="xMidYMid slice"/>` : ''}
               <rect width="400" height="620" fill="url(#tint)"/>
               ${C.dayNight ? '<rect class="night-tint" width="400" height="620" fill="url(#tintN)"/>' : ''}
               <circle class="shine" id="shine" cx="140" cy="200" r="150" fill="url(#shineG)"/>
@@ -155,7 +155,7 @@
   const withIng = k => CATALOG.filter(p => p.i.includes(k));
   const panel = k => {
     const x = ingOf(k), list = withIng(k);
-    return `<span class="swatch" style="--c:${COL[k]}" aria-hidden="true"></span>
+    return `<figure class="ing-photo"><img src="assets/u-ing-${k}.webp" alt="" decoding="async"><span class="dot" style="--c:${COL[k]}" aria-hidden="true"></span></figure>
       <h3 id="ingName" tabindex="-1">${esc(x.t)}</h3>
       <p class="what">${esc(x.d)}</p>
       <p class="n">${L(`Está em ${list.length} ${list.length === 1 ? 'produto da loja' : 'produtos da loja'}`, `In ${list.length} ${list.length === 1 ? 'product' : 'products'} in the shop`, `상점의 ${list.length}개 제품에 들어 있습니다`)}</p>
@@ -345,6 +345,8 @@
           </div>
         </div>
       </div>
+      <div class="sticky-buy" id="stickyBuy" aria-hidden="true"><span class="th" style="background:${tile(p)}"><img src="${p.img}" alt=""></span><span class="nm">${esc(p.n)}<b>${money(p.p)}</b></span>
+        <button class="btn" type="button" data-add="${p.id}" tabindex="-1" ${p.sold ? 'disabled' : ''}>${p.sold ? L('Esgotado', 'Sold out', '품절') : L('Adicionar', 'Add', '담기')}</button></div>
       ${related.length ? `<section style="padding-bottom:96px" aria-labelledby="h-rel"><div class="sh"><h2 id="h-rel">${L(`Também no passo ${p.s}`, `Also in step ${p.s}`, `같은 ${p.s}단계 제품`)}</h2></div><div class="grid fit">${related.map(card).join('')}</div></section>` : ''}
     </div>`;
   };
@@ -353,8 +355,9 @@
   const about = () => `<div class="wrap">
     <div class="ab-hero">
       <div><p class="crumb"><a href="#/inicio">${L('Início', 'Home', '홈')}</a> / ${L('Sobre', 'About', '소개')}</p><h1 style="margin-top:8px">${L('Uma loja pequena, com a Coreia por perto', 'A small shop with Korea close by', '한국을 가까이 둔 작은 상점')}</h1>
-      <p>${L('Somos uma loja de Braga dedicada aos cuidados asiáticos com a pele. Selecionamos produtos de elevada qualidade, feitos com ingredientes tradicionais, e ajudamos a montar rotinas eficazes para uma pele saudável e radiante.', 'We are a shop in Braga dedicated to Asian skincare. We select high-quality products made with traditional ingredients and help you build effective routines for healthy, radiant skin.', '우리는 브라가에 있는 아시아 스킨케어 전문 상점입니다. 전통 성분으로 만든 고품질 제품을 고르고, 건강하고 빛나는 피부를 위한 루틴을 함께 만듭니다.')}</p></div>
-      <div class="arch"><img src="assets/hero-folha.jpg" alt="${L('Rosto de mulher parcialmente coberto por uma folha verde', 'Woman’s face partly covered by a green leaf', '초록 잎으로 얼굴 일부를 가린 여성')}"></div>
+      <p>${L('Somos uma loja de Braga dedicada aos cuidados asiáticos com a pele. Selecionamos produtos de elevada qualidade, feitos com ingredientes tradicionais, e ajudamos a montar rotinas eficazes para uma pele saudável e radiante.', 'We are a shop in Braga dedicated to Asian skincare. We select high-quality products made with traditional ingredients and help you build effective routines for healthy, radiant skin.', '우리는 브라가에 있는 아시아 스킨케어 전문 상점입니다. 전통 성분으로 만든 고품질 제품을 고르고, 건강하고 빛나는 피부를 위한 루틴을 함께 만듭니다.')}</p>
+      <p>${L('O nome vem de Namsan, a montanha no centro de Seul onde fica a torre N Seoul.', 'The name comes from Namsan, the mountain in the middle of Seoul topped by N Seoul Tower.', '이름은 N서울타워가 있는 서울 중심의 남산에서 왔습니다.')}</p></div>
+      <figure class="arch-fig"><div class="arch"><img src="assets/u-namsan.webp" alt="${L('A torre N Seoul no topo da montanha Namsan, em Seul', 'N Seoul Tower on top of Namsan mountain in Seoul', '서울 남산 위의 N서울타워')}"></div><figcaption>${L('Namsan, Seul. É daqui que vem o nome.', 'Namsan, Seoul. This is where the name comes from.', '서울 남산. 이름은 여기서 왔습니다.')}</figcaption></figure>
     </div>
     <div class="ab-ps">
       <article><h3>${L('Escolhidos um a um', 'Chosen one by one', '하나하나 고른 제품')}</h3><p>${L('Trabalhamos com catorze marcas coreanas.', 'We work with fourteen Korean brands.', '열네 개의 한국 브랜드와 함께합니다.')}</p></article>
@@ -552,10 +555,26 @@
     }
     if (t.closest('[data-open-menu]')) { $('#mnav').showModal(); return; }
     if (t.closest('[data-close-menu]') || (t.closest('#mnav a'))) { $('#mnav').close(); if (!t.closest('a')) return; }
+    // The product tile morphs into the product page photo
+    const toProduct = t.closest('a[href^="#/produto/"]');
+    if (toProduct) {
+      document.querySelectorAll('.pd-media').forEach(m => { m.style.viewTransitionName = 'none'; });
+      document.querySelectorAll('.card .tile').forEach(x => { x.style.viewTransitionName = ''; });
+      const tileEl = toProduct.closest('.card')?.querySelector('.tile');
+      if (tileEl) tileEl.style.viewTransitionName = 'ptile';
+    }
     const add = t.closest('[data-add]');
     if (add) {
       const p = byId[add.dataset.add];
       cart.add(p.id, add.hasAttribute('data-qty') ? pq : 1);
+      const badgeEl = $('#badge');
+      if (badgeEl) { badgeEl.classList.remove('bump'); void badgeEl.offsetWidth; badgeEl.classList.add('bump'); }
+      if (!add.classList.contains('added')) {
+        const was = add.innerHTML;
+        add.classList.add('added');
+        add.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>${L('Adicionado', 'Added', '담김')}`;
+        setTimeout(() => { add.classList.remove('added'); add.innerHTML = was; }, 1600);
+      }
       NG.toast(L(`${p.n.split(' ').slice(0, 4).join(' ')} no carrinho`, `${p.n.split(' ').slice(0, 4).join(' ')} added`, `${p.n.split(' ').slice(0, 4).join(' ')} 담김`), { label: L('Ver carrinho', 'View bag', '장바구니 보기'), run: drawer.open });
       return;
     }
@@ -636,6 +655,7 @@
   addEventListener('scroll', onScrollHdr, { passive: true });
 
   /* ---------- Boot ---------- */
+  let lastProduct = null, buyObs = null;
   const drawer = NG.drawer({ onCheckout: () => { ck.order = null; ck.step = 1; location.hash = '#/checkout'; } });
   cart.on(() => { const b = $('#badge'); if (b) b.textContent = cart.count() || ''; });
   chrome();
@@ -648,6 +668,28 @@
       if (first || !r.param) { document.body.classList.remove('play'); void document.body.offsetWidth; document.body.classList.add('play'); }
     } else if (ritualOff) { ritualOff(); ritualOff = null; }
     if (r.name === 'loja' && r.param === 'procurar') { const qi = $('#q'); if (qi) qi.focus(); }
+    // Coming back from a product: its card tile morphs back from the big photo
+    if (lastProduct && r.name !== 'produto') {
+      const back = $(`.card .tile[href="#/produto/${lastProduct}"]`);
+      if (back) back.style.viewTransitionName = 'ptile';
+    }
+    lastProduct = r.name === 'produto' ? r.param : null;
+    // Sticky buy bar: shown once the main buy button has scrolled above the viewport
+    if (buyObs) { removeEventListener('scroll', buyObs); buyObs = null; }
+    const bar = $('#stickyBuy'), buy = $('.buybar');
+    if (bar && buy) {
+      let shown = false;
+      buyObs = () => {
+        const show = buy.getBoundingClientRect().bottom < 0;
+        if (show === shown) return;
+        shown = show;
+        bar.classList.toggle('on', show);
+        bar.setAttribute('aria-hidden', String(!show));
+        bar.querySelector('button').tabIndex = show ? 0 : -1;
+      };
+      addEventListener('scroll', buyObs, { passive: true });
+      buyObs();
+    }
     onScrollHdr();
   });
 })();

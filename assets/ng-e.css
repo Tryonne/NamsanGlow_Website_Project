@@ -530,5 +530,55 @@ html.vt-time::view-transition-old(root),html.vt-time::view-transition-new(root){
 .ng-toast.on{translate:-50% 0;opacity:1}
 .ng-toast button{min-height:36px;padding:0 14px;border-radius:999px;border:0;background:var(--accent-soft);color:#2A1D15;font-weight:600;cursor:pointer}
 
+/* ---------- Polish ---------- */
+
+/* Ingredient photo at the top of the picker panel */
+.panel{--pp:clamp(22px,2.6vw,36px);padding:var(--pp)}
+.ing-photo{position:relative;margin:calc(var(--pp) * -1) calc(var(--pp) * -1) 22px;height:clamp(150px,16vw,200px);overflow:hidden}
+.ing-photo img{width:100%;height:100%;object-fit:cover}
+.ing-photo::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 55%,color-mix(in srgb,var(--paper) 70%,transparent))}
+.ing-photo .dot{position:absolute;left:var(--pp);bottom:-14px;z-index:1;width:40px;height:40px;border-radius:50%;background:radial-gradient(circle at 36% 30%,rgba(255,255,255,.9),transparent 30%),var(--c);box-shadow:0 0 0 3px var(--paper),0 0 0 4px var(--accent)}
+@media (prefers-reduced-motion:no-preference){.ing-photo img{animation:ingIn .8s var(--ease) both}@keyframes ingIn{from{scale:1.08;opacity:.4}}}
+
+/* Captioned arch on the about page */
+.arch-fig{margin:0}
+.arch-fig figcaption{margin-top:34px;font-size:14px;color:var(--muted)}
+
+/* Product tile morphs into the product photo */
+.pd-media{view-transition-name:ptile}
+::view-transition-group(ptile){animation-duration:.55s;animation-timing-function:var(--ease)}
+::view-transition-old(ptile),::view-transition-new(ptile){height:100%;object-fit:cover}
+
+/* Sections settle in as they scroll into view (CSS only, decorative) */
+@media (prefers-reduced-motion:no-preference){
+  @supports ((animation-timeline: view()) and (animation-range: entry)){
+    @keyframes settle{from{opacity:0;translate:0 32px}}
+    .sh,.grid .card,.story > *,.quotes li,.ab-ps article,.lab-grid > *,.qz-grid > *,.bgrid a,.contact a{animation:settle linear both;animation-timeline:view();animation-range:entry 0% entry 60%}
+    .grid .card:nth-child(4n+2){animation-range:entry 6% entry 66%}
+    .grid .card:nth-child(4n+3){animation-range:entry 12% entry 72%}
+    .grid .card:nth-child(4n+4){animation-range:entry 18% entry 78%}
+  }
+}
+
+/* Add-to-bag feedback */
+@keyframes bump{35%{scale:1.55}70%{scale:.9}}
+.ic .badge.bump{animation:bump .5s var(--spring)}
+.add.added,.btn.added{background:var(--accent-soft);border-color:var(--accent-soft);color:#2A1D15;gap:6px;display:inline-flex;align-items:center;justify-content:center}
+
+/* Sticky buy bar on phones */
+.sticky-buy{position:fixed;left:12px;right:12px;bottom:12px;z-index:25;display:none;grid-template-columns:48px minmax(0,1fr) auto;gap:12px;align-items:center;padding:8px 8px 8px 10px;border-radius:22px;background:var(--paper);border:1px solid var(--line);box-shadow:0 20px 40px -20px rgba(var(--shade),.5);translate:0 140%;transition:translate .4s var(--ease)}
+.sticky-buy .th{width:48px;height:48px;border-radius:14px;display:grid;place-items:center}
+.sticky-buy .th img{width:84%;mix-blend-mode:multiply}
+.sticky-buy .nm{font-size:13px;line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.sticky-buy .nm b{display:block;font-family:var(--display);font-weight:400;font-size:17px}
+.sticky-buy .btn{min-height:46px;padding:0 18px}
+.sticky-buy.on{translate:0}
+@media (max-width:900px){.sticky-buy{display:grid}}
+
+/* Fine grain on the hero and dark sections for a printed, less flat finish */
+.hero::after,.deep:not(.qz)::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;opacity:.07;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.deep{position:relative}
+.deep > .wrap,.hero > .wrap{position:relative;z-index:1}
+
 ::view-transition-old(root),::view-transition-new(root){animation-duration:.35s}
 @media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
