@@ -127,9 +127,18 @@ html.vt-time::view-transition-old(root),html.vt-time::view-transition-new(root){
   .stage{width:min(68%,300px);order:-1;margin-bottom:-8px}
 }
 
-/* Sky for day / night (H) */
-.sky .sun,.sky .moon,.sky .stars{transition:opacity .2s}
-[data-time="manha"] .sky .moon,[data-time="manha"] .sky .stars,[data-time="noite"] .sky .sun{opacity:0}
+/* Day / night hero (H): a low sun by day; by night a candle glow and a gold halo behind the drop */
+[data-time="noite"] .sky .sun{opacity:0}
+.night-tint{opacity:0}
+[data-time="noite"] .night-tint{opacity:1}
+[data-time] .stage::before,[data-time] .stage::after{content:'';position:absolute;left:50%;top:46%;translate:-50% -50%;border-radius:50%;pointer-events:none;opacity:0;transition:opacity .2s}
+[data-time] .stage::before{width:190%;aspect-ratio:1;background:radial-gradient(closest-side,rgba(214,160,82,.30),rgba(150,98,40,.12) 45%,transparent 72%)}
+[data-time] .stage::after{width:122%;aspect-ratio:1;border:1px solid rgba(226,190,120,.32);box-shadow:0 0 0 14px rgba(226,190,120,.04),inset 0 0 60px rgba(226,190,120,.06)}
+[data-time="noite"] .stage::before,[data-time="noite"] .stage::after{opacity:1}
+[data-time="noite"] .stage svg{filter:drop-shadow(0 30px 60px rgba(0,0,0,.55))}
+@keyframes candle{50%{opacity:.78;scale:1.03}}
+@media (prefers-reduced-motion:no-preference){[data-time="noite"] .stage::before{animation:candle 7s ease-in-out infinite}}
+@media (max-width:900px){[data-time] .stage::after{width:116%}}
 
 /* Brands marquee */
 .brands{background:var(--deep-2);overflow:hidden}

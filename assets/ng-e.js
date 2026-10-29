@@ -100,12 +100,9 @@
 
   /* ---------- Home sections ---------- */
   const DROP = 'M200 18C200 18 352 230 370 340C390 462 306 560 200 560C94 560 10 462 30 340C48 230 200 18 200 18Z';
-  const stars = Array.from({ length: 40 }, (_, i) => `<circle cx="${(i * 197) % 1440}" cy="${(i * 83) % 520 + 10}" r="${i % 5 ? .9 : 1.6}" fill="#F6EEDC"/>`).join('');
+  // Day keeps a low sun; night has no sky drawing, only the candle glow and halo around the drop (CSS)
   const sky = () => C.dayNight ? `<svg class="sky" viewBox="0 0 1440 800" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-      <g class="stars">${stars}</g>
-      <g class="sun"><circle cx="1150" cy="190" r="170" fill="#F6C48E" opacity=".35"/><circle cx="1150" cy="190" r="96" fill="#F4B47A" opacity=".55"/></g>
-      <mask id="crescent"><rect width="1440" height="800" fill="#fff"/><circle cx="1262" cy="122" r="54" fill="#000"/></mask>
-      <g class="moon"><circle cx="1236" cy="140" r="120" fill="#F4EEDC" opacity=".06"/><circle cx="1236" cy="140" r="60" fill="#F4EEDC" opacity=".92" mask="url(#crescent)"/></g></svg>` : '';
+      <g class="sun"><circle cx="1150" cy="190" r="170" fill="#F6C48E" opacity=".35"/><circle cx="1150" cy="190" r="96" fill="#F4B47A" opacity=".55"/></g></svg>` : '';
 
   const hero = () => {
     const words = tr(C.hero.h1).split(' ');
@@ -123,6 +120,7 @@
             <clipPath id="dropClip"><path d="${DROP}"/></clipPath>
             <linearGradient id="goldRim" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F3DDA6"/><stop offset=".45" stop-color="#B08A3E"/><stop offset="1" stop-color="#6E4F1A"/></linearGradient>
             <linearGradient id="tint" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E3C27E" stop-opacity=".05"/><stop offset="1" stop-color="#2A1D15" stop-opacity=".3"/></linearGradient>
+            <linearGradient id="tintN" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1A0F06" stop-opacity=".15"/><stop offset=".6" stop-color="#3A2410" stop-opacity=".35"/><stop offset="1" stop-color="#0C0805" stop-opacity=".7"/></linearGradient>
             <radialGradient id="shineG"><stop offset="0" stop-color="#fff" stop-opacity=".75"/><stop offset=".4" stop-color="#FFF4D8" stop-opacity=".25"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
             <radialGradient id="poolG" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#E3C27E" stop-opacity=".45"/><stop offset="1" stop-color="#E3C27E" stop-opacity="0"/></radialGradient>
           </defs>
@@ -132,8 +130,9 @@
           <g class="drop-g">
             <g clip-path="url(#dropClip)">
               <image class="drop-img day" href="${C.hero.img}" x="-90" y="10" width="580" height="580" preserveAspectRatio="xMidYMid slice"/>
-              ${C.hero.imgNight ? `<image class="drop-img night" href="${C.hero.imgNight}" x="-90" y="10" width="580" height="580" preserveAspectRatio="xMidYMid slice"/>` : ''}
+              ${C.hero.imgNight ? `<image class="drop-img night" href="${C.hero.imgNight}" x="-300" y="-20" width="680" height="680" preserveAspectRatio="xMidYMid slice"/>` : ''}
               <rect width="400" height="620" fill="url(#tint)"/>
+              ${C.dayNight ? '<rect class="night-tint" width="400" height="620" fill="url(#tintN)"/>' : ''}
               <circle class="shine" id="shine" cx="140" cy="200" r="150" fill="url(#shineG)"/>
             </g>
             <path d="${DROP}" fill="none" stroke="url(#goldRim)" stroke-width="3"/>
