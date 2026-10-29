@@ -92,7 +92,7 @@
       </div>
       ${has('lab') ? `<div class="side-panel side-sub" id="sideIng" inert>
         ${sideTop(`<button class="side-back" type="button" data-sub-back>${I.prev}<span>${L('Ingredientes', 'Ingredients', '성분')}</span></button>`)}
-        <ul class="side-list">${INGREDIENTS.map(x => row('#/loja/i-' + x.key, esc(x.t), `<i class="sw" style="--c:${COL[x.key]}"></i>`)).join('')}</ul>
+        <ul class="side-list">${INGREDIENTS.map(x => row('#/loja/i-' + x.key, esc(x.t), `<i class="sw" style="background-image:url(assets/u-ing-${x.key}.webp)"></i>`)).join('')}</ul>
       </div>` : ''}
     </div>`;
   };
@@ -195,23 +195,26 @@
   /* Ingredient lab */
   let ing = 'centella';
   const withIng = k => CATALOG.filter(p => p.i.includes(k));
+  // Ingredient index: names on the left, the chosen one with its photo, what it does and where it is
   const panel = k => {
     const x = ingOf(k), list = withIng(k);
-    return `<figure class="ing-photo"><img src="assets/u-ing-${k}.webp" alt="" decoding="async"><span class="dot" style="--c:${COL[k]}" aria-hidden="true"></span></figure>
-      <h3 id="ingName" tabindex="-1">${esc(x.t)}</h3>
-      <p class="what">${esc(x.d)}</p>
-      <p class="n">${L(`Está em ${list.length} ${list.length === 1 ? 'produto da loja' : 'produtos da loja'}`, `In ${list.length} ${list.length === 1 ? 'product' : 'products'} in the shop`, `상점의 ${list.length}개 제품에 들어 있습니다`)}</p>
-      <ul>${list.slice(0, 4).map(p => `<li><a href="#/produto/${p.id}"><span class="th" style="background:${tile(p)}"><img src="${p.img}" alt=""></span><span><small>${esc(p.b)}</small><span class="nm">${esc(p.n)}</span></span><b>${money(p.p)}</b></a></li>`).join('')}</ul>
-      <div class="more"><a class="btn" href="#/loja/i-${k}">${L('Ver na loja', 'See in the shop', '상점에서 보기')}</a></div>`;
+    return `<figure class="ix-photo"><img src="assets/u-ing-${k}.webp" alt="" decoding="async"></figure>
+      <div class="ix-body">
+        <h3 id="ingName" tabindex="-1">${esc(x.t)}</h3>
+        <p class="what">${esc(x.d)}</p>
+        <p class="ix-n">${L(`${list.length} ${list.length === 1 ? 'produto com este ingrediente' : 'produtos com este ingrediente'}`, `${list.length} ${list.length === 1 ? 'product with this ingredient' : 'products with this ingredient'}`, `이 성분이 든 제품 ${list.length}개`)}</p>
+        <ul class="ix-prods">${list.slice(0, 3).map(p => `<li><a href="#/produto/${p.id}"><span class="th" style="background:${tile(p)}"><img src="${p.img}" alt=""></span><span class="nm"><small>${esc(p.b)}</small>${esc(p.n)}</span><b>${money(p.p)}</b></a></li>`).join('')}</ul>
+        <a class="lnk" href="#/loja/i-${k}">${list.length > 3 ? L(`Ver os ${list.length} produtos`, `See all ${list.length} products`, `제품 ${list.length}개 모두 보기`) : L('Ver na loja', 'See in the shop', '상점에서 보기')}</a>
+      </div>`;
   };
   const lab = () => `<section class="sec ${C.labDeep ? 'deep' : ''}" id="ingredientes" aria-labelledby="h-lab">
     <div class="wrap">
-      <div class="sh"><h2 id="h-lab">${L('Escolha pelo ingrediente', 'Shop by ingredient', '성분으로 고르기')}</h2><p>${L('Nove ativos que encontra nas nossas rotinas. Toque num para saber o que faz e em que produtos está.', 'Nine actives you will find in our routines. Tap one to see what it does and which products have it.', '루틴에 자주 쓰이는 아홉 가지 성분. 하나를 눌러 효과와 해당 제품을 확인하세요.')}</p></div>
-      <div class="lab-grid">
-        <div class="dishes" id="dishes" role="group" aria-label="${L('Ingredientes', 'Ingredients', '성분')}">
-          ${INGREDIENTS.map((x, i) => `<button class="dish" type="button" data-ing="${x.key}" aria-pressed="${x.key === ing}" style="--c:${COL[x.key]};--i:${i}"><span class="gel"></span><span class="lbl">${esc(x.t)}</span></button>`).join('')}
+      <div class="sh"><h2 id="h-lab">${L('Escolha pelo ingrediente', 'Shop by ingredient', '성분으로 고르기')}</h2><p>${L('Nove ativos que encontra nas nossas rotinas. Escolha um para saber o que faz e em que produtos está.', 'Nine actives you will find in our routines. Pick one to see what it does and which products have it.', '루틴에 자주 쓰이는 아홉 가지 성분. 하나를 골라 효과와 해당 제품을 확인하세요.')}</p></div>
+      <div class="ix">
+        <div class="ix-list" role="tablist" aria-orientation="vertical" aria-label="${L('Ingredientes', 'Ingredients', '성분')}">
+          ${INGREDIENTS.map(x => `<button type="button" role="tab" id="ixt-${x.key}" aria-controls="panel" aria-selected="${x.key === ing}" tabindex="${x.key === ing ? 0 : -1}" data-ing="${x.key}"><span class="nm">${esc(x.t)}</span><span class="ct">${withIng(x.key).length}</span></button>`).join('')}
         </div>
-        <div class="panel" id="panel" aria-live="polite">${panel(ing)}</div>
+        <div class="ix-panel" id="panel" role="tabpanel" aria-labelledby="ixt-${ing}" aria-live="polite">${panel(ing)}</div>
       </div>
     </div></section>`;
 
@@ -246,7 +249,18 @@
     </div></section>`;
   };
 
-  /* Quiz */
+  /* Quiz: two questions on the left; the morning routine fills in on the right as you answer */
+  const QI = {
+    seca: '<path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/><path d="M10 13l2 2-1 2"/>',
+    oleosa: '<path d="M12 3s6 7 6 11a6 6 0 0 1-12 0c0-4 6-11 6-11z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5" stroke-linecap="round"/>',
+    mista: '<circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor" stroke="none" opacity=".35"/>',
+    sensivel: '<path d="M5 19c0-8 5-13 14-14-1 9-6 14-14 14z"/><path d="M5 19l8-8"/>',
+    hidratacao: '<path d="M3 9c3-2 6 2 9 0s6-2 9 0M3 14c3-2 6 2 9 0s6-2 9 0M3 19c3-2 6 2 9 0s6-2 9 0"/>',
+    manchas: '<circle cx="12" cy="12" r="8"/><circle cx="9.5" cy="10" r="1.2" fill="currentColor"/><circle cx="14.5" cy="13.5" r="1.6" fill="currentColor"/><circle cx="10.5" cy="15.5" r=".8" fill="currentColor"/>',
+    vermelhidao: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4.5" opacity=".6"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/>',
+    poros: '<circle cx="12" cy="12" r="8"/><g fill="currentColor" stroke="none"><circle cx="9" cy="9" r=".9"/><circle cx="12" cy="9" r=".9"/><circle cx="15" cy="9" r=".9"/><circle cx="9" cy="12" r=".9"/><circle cx="12" cy="12" r=".9"/><circle cx="15" cy="12" r=".9"/><circle cx="9" cy="15" r=".9"/><circle cx="12" cy="15" r=".9"/><circle cx="15" cy="15" r=".9"/></g>'
+  };
+  const qIcon = k => `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" aria-hidden="true">${QI[k]}</svg>`;
   const Q = () => [
     [L('Como é a sua pele?', 'What is your skin like?', '피부 타입은 무엇인가요?'), 'skin', [
       ['seca', L('Seca', 'Dry', '건성'), L('Repuxa e pede conforto', 'Feels tight, wants comfort', '당기고 건조해요')],
@@ -265,24 +279,41 @@
     const skin = qz.skin || 'mista', c = qz.concern || 'hidratacao', oily = skin === 'oleosa' || skin === 'mista';
     return ['anua-gel', 'anua-toner', SERUM[c], skin === 'seca' || skin === 'mista' ? 'haruharu-cream' : 'anua-3plus', oily ? 'torriden-toneup' : 'torriden-sun'];
   };
-  const quiz = () => `<section class="sec qz deep" id="quiz" aria-labelledby="h-qz">
-    <div class="wrap">
-      <div class="sh"><h2 id="h-qz">${L('Não sabe por onde começar?', 'Not sure where to start?', '어디서 시작할지 모르겠나요?')}</h2><p>${L('Duas perguntas sobre a sua pele. Mostramos cinco produtos para a rotina da manhã.', 'Two questions about your skin. We show five products for your morning routine.', '피부에 관한 두 가지 질문에 답하면 아침 루틴 제품 다섯 가지를 보여 드립니다.')}</p></div>
-      <div class="qz-grid"><div class="qz-card" id="qzCard"></div><div class="qz-res pending" id="qzRes" aria-live="polite"></div></div>
+  const quiz = () => `<section class="sec qz" id="quiz" aria-labelledby="h-qz">
+    <div class="wrap qz-in">
+      <div class="qz-left">
+        <h2 id="h-qz">${L('Não sabe por onde começar?', 'Not sure where to start?', '어디서 시작할지 모르겠나요?')}</h2>
+        <p class="qz-lead">${L('Duas perguntas sobre a sua pele. A rotina da manhã monta-se ao lado à medida que responde.', 'Two questions about your skin. Your morning routine builds alongside as you answer.', '피부에 관한 두 가지 질문. 답하는 동안 옆에서 아침 루틴이 만들어집니다.')}</p>
+        <div id="qzCard"></div>
+      </div>
+      <aside class="qz-res" id="qzRes" aria-live="polite" aria-label="${L('A sua rotina', 'Your routine', '나의 루틴')}"></aside>
     </div></section>`;
   const drawQuiz = focus => {
     const cardEl = $('#qzCard'), res = $('#qzRes'); if (!cardEl) return;
     const qs = Q(), done = qz.step >= 2, q = qs[Math.min(qz.step, 1)];
     const lbl = (qi, v) => qs[qi][2].find(o => o[0] === v)[1];
-    cardEl.innerHTML = `<div class="qz-prog" aria-hidden="true"><span class="on"></span><span class="${qz.step >= 1 ? 'on' : ''}"></span></div>` +
-      (done ? `<h3 tabindex="-1">${L('A sua rotina está pronta', 'Your routine is ready', '루틴이 준비되었습니다')}</h3><p style="color:var(--muted)">${L(`Pele ${lbl(0, qz.skin).toLowerCase()}, foco em ${lbl(1, qz.concern).toLowerCase()}.`, `${lbl(0, qz.skin)} skin, focus on ${lbl(1, qz.concern).toLowerCase()}.`, `${lbl(0, qz.skin)} 피부, ${lbl(1, qz.concern)} 집중 케어.`)}</p><button class="qz-back" type="button" data-qz-restart>${L('Responder outra vez', 'Start again', '다시 하기')}</button>` :
-      `<h3 tabindex="-1">${q[0]}</h3><div class="qz-opts">${q[2].map(o => `<button type="button" data-qz="${q[1]}" data-v="${o[0]}" aria-pressed="${qz[q[1]] === o[0]}"><span class="dot"></span><b>${o[1]}</b><small>${o[2]}</small></button>`).join('')}</div>` +
-      (qz.step ? `<button class="qz-back" type="button" data-qz-back>${L('Voltar', 'Back', '이전')}</button>` : ''));
+    const meta = `<div class="qz-meta"><span>${done ? L('Concluído', 'Done', '완료') : L(`Pergunta ${qz.step + 1} de 2`, `Question ${qz.step + 1} of 2`, `질문 ${qz.step + 1} / 2`)}</span><span class="qz-bar"><i style="--p:${done ? 1 : qz.step / 2 + .5}"></i></span></div>`;
+    cardEl.innerHTML = meta + (done
+      ? `<h3 tabindex="-1">${L('A sua rotina está pronta', 'Your routine is ready', '루틴이 준비되었습니다')}</h3>
+         <p class="qz-sum">${L(`Para pele ${lbl(0, qz.skin).toLowerCase()}, com foco em ${lbl(1, qz.concern).toLowerCase()}. Cinco produtos, pela ordem em que se aplicam de manhã.`, `For ${lbl(0, qz.skin).toLowerCase()} skin, focused on ${lbl(1, qz.concern).toLowerCase()}. Five products, in the order you apply them in the morning.`, `${lbl(0, qz.skin)} 피부, ${lbl(1, qz.concern)} 집중 케어. 아침에 바르는 순서대로 다섯 가지 제품입니다.`)}</p>
+         <div class="qz-acts"><button class="lnk" type="button" data-qz-restart>${L('Responder outra vez', 'Start again', '다시 하기')}</button></div>`
+      : `<h3 tabindex="-1">${q[0]}</h3>
+         <div class="qz-opts">${q[2].map(o => `<button type="button" data-qz="${q[1]}" data-v="${o[0]}" aria-pressed="${qz[q[1]] === o[0]}">${qIcon(o[0])}<b>${o[1]}</b><small>${o[2]}</small></button>`).join('')}</div>
+         ${qz.step ? `<div class="qz-acts"><button class="ck-back" type="button" data-qz-back>${I.prev}${L('Voltar à pergunta anterior', 'Back to the previous question', '이전 질문으로')}</button></div>` : ''}`);
+    // Steps 1, 2, 4 and 5 depend on skin type; step 3 (the serum) on what to improve
     const ids = pickRoutine();
-    res.classList.toggle('pending', !done);
-    res.innerHTML = `<h3>${done ? L('Para a sua manhã', 'For your morning', '당신의 아침 루틴') : L('Exemplo de rotina', 'Sample routine', '루틴 예시')}</h3><p>${done ? L('Cinco produtos, pela ordem em que se aplicam.', 'Five products, in the order you apply them.', '바르는 순서대로 다섯 가지 제품입니다.') : L('Responda às perguntas para a ajustar à sua pele.', 'Answer the questions to fit it to your skin.', '질문에 답하면 피부에 맞게 바뀝니다.')}</p>
-      <ol>${ids.map((id, i) => { const p = byId[id]; return `<li><span class="n">${i + 1}</span><span class="th"><img src="${p.img}" alt=""></span><span><small>${STEPS[i].t}</small><span class="nm">${esc(p.n)}</span></span><b>${money(p.p)}</b></li>`; }).join('')}</ol>
-      <div class="qz-tot"><b>${money(ids.reduce((s, id) => s + byId[id].p, 0))}</b><button class="btn gold" type="button" data-addset="${ids.join(',')}" ${done ? '' : 'disabled'}>${L('Adicionar a rotina', 'Add the routine', '루틴 담기')}</button></div>`;
+    const known = i => i === 2 ? !!qz.concern : !!qz.skin;
+    const total = ids.reduce((s, id) => s + byId[id].p, 0);
+    res.classList.toggle('done', done);
+    res.innerHTML = `<div class="qr-head"><h3>${L('A sua rotina da manhã', 'Your morning routine', '나의 아침 루틴')}</h3><span>${L('5 passos', '5 steps', '5단계')}</span></div>
+      <ol class="qr-list">${ids.map((id, i) => {
+        const p = byId[id], k = known(i);
+        return `<li class="${k ? 'in' : ''}" style="--d:${i * 70}ms"><span class="no">${String(i + 1).padStart(2, '0')}</span>
+          ${k ? `<span class="th" style="background:${TILE(i)}"><img src="${p.img}" alt=""></span><a class="nm" href="#/produto/${p.id}"><small>${STEPS[i].t}</small>${esc(p.n)}</a><b>${money(p.p)}</b>`
+              : `<span class="th ghost"></span><span class="nm"><small>${STEPS[i].t}</small><span class="ph-line"></span></span><b class="muted">—</b>`}</li>`;
+      }).join('')}</ol>
+      <div class="qr-foot"><p><span>${L('Total da rotina', 'Routine total', '루틴 합계')}</span><b>${done ? money(total) : '—'}</b></p>
+        <button class="btn" type="button" data-addset="${ids.join(',')}" ${done ? '' : 'disabled'}>${L('Adicionar os 5 ao carrinho', 'Add all 5 to bag', '5개 모두 담기')}</button></div>`;
     if (focus) cardEl.querySelector('h3').focus({ preventScroll: true });
   };
 
@@ -301,13 +332,33 @@
         <a class="btn ghost" href="#/sobre">${L('Conhecer a Namsan Glow', 'Meet Namsan Glow', '남산 글로우 알아보기')}</a>
       </div></div></section>`;
 
-  const quotes = () => `<section class="sec" style="padding-top:0" aria-labelledby="h-q">
-    <div class="wrap"><h2 id="h-q" class="vh">${L('O que dizem as clientes', 'What customers say', '고객 후기')}</h2>
-      <ul class="quotes">
-        <li><figure><blockquote>${L('Os produtos Namsan Glow elevaram a minha rotina de cuidados com a pele.', 'Namsan Glow products took my skincare routine to another level.', '남산 글로우 제품 덕분에 스킨케어 루틴이 한 단계 올라갔어요.')}</blockquote><figcaption>Cláudia Soares</figcaption></figure></li>
-        <li><figure><blockquote>${L('Estou completamente apaixonada pelos produtos da Namsan Glow.', 'I am completely in love with Namsan Glow products.', '남산 글로우 제품에 완전히 반했어요.')}</blockquote><figcaption>Teresa Domingos</figcaption></figure></li>
-        <li><figure><blockquote>${L('A minha pele fica purificada, refrescada e verdadeiramente nutrida.', 'My skin feels purified, refreshed and truly nourished.', '피부가 맑고 산뜻하며 깊이 영양을 받은 느낌이에요.')}</blockquote><figcaption>Sofia Matos</figcaption></figure></li>
-      </ul></div></section>`;
+  // Example reviews for the mock: replace with the shop's real Google or Instagram reviews before launch
+  const REVIEWS = [
+    { who: 'Inês C.', place: 'Braga', skin: ['Pele mista', 'Combination skin', '복합성 피부'], stars: 5, when: ['há 3 semanas', '3 weeks ago', '3주 전'], prod: 'anua-toner',
+      t: ['Acalmou a vermelhidão', 'Calmed the redness down', '붉은기가 진정됐어요'],
+      x: ['Uso o tónico de manhã e à noite há dois meses. A zona à volta do nariz está menos vermelha e já não sinto a pele a repuxar depois de lavar.', 'I have used the toner morning and night for two months. The area around my nose is less red and my skin no longer feels tight after washing.', '두 달 동안 아침저녁으로 토너를 썼어요. 코 주변 붉은기가 줄었고 세안 후 당김도 없어졌어요.'] },
+    { who: 'Mariana P.', place: 'Porto', skin: ['Pele seca', 'Dry skin', '건성 피부'], stars: 5, when: ['há 1 mês', '1 month ago', '한 달 전'], prod: 'torriden-sun',
+      t: ['Um protetor que não deixa branco', 'A sunscreen with no white cast', '백탁 없는 선크림'],
+      x: ['Todos os protetores que experimentei ficavam pesados na minha pele seca. Este absorve depressa e funciona bem por baixo da base.', 'Every sunscreen I tried felt heavy on my dry skin. This one sinks in fast and sits well under foundation.', '건성 피부라 선크림이 늘 무거웠는데, 이건 빨리 흡수되고 파운데이션 밑에서도 잘 맞아요.'] },
+    { who: 'Beatriz L.', place: 'Guimarães', skin: ['Pele normal', 'Normal skin', '중성 피부'], stars: 4, when: ['há 2 meses', '2 months ago', '두 달 전'], prod: 'haruharu-cream',
+      t: ['Ótimo para o inverno', 'Great for winter', '겨울에 딱 좋아요'],
+      x: ['Textura rica mas nada gordurosa e a pele fica confortável o dia todo. Tirei uma estrela porque o frasco dura menos do que esperava.', 'Rich but not greasy, and my skin stays comfortable all day. One star off because the jar runs out sooner than I expected.', '진하지만 기름지지 않고 하루 종일 편안해요. 생각보다 빨리 써서 별 하나 뺐어요.'] },
+    { who: 'Joana R.', place: 'Lisboa', skin: ['Pele sensível', 'Sensitive skin', '민감성 피부'], stars: 5, when: ['há 2 semanas', '2 weeks ago', '2주 전'], prod: 'biodance-mask',
+      t: ['Pele luminosa no dia seguinte', 'Glowing skin the next morning', '다음 날 피부가 환해요'],
+      x: ['Uso uma vez por semana antes de dormir. Fica mesmo transparente e de manhã a pele está mais luminosa. Responderam-me no WhatsApp a explicar como a usar.', 'I use it once a week before bed. It really turns clear and my skin glows in the morning. They answered on WhatsApp to explain how to use it.', '일주일에 한 번 자기 전에 써요. 정말 투명해지고 아침에 피부가 환해요. WhatsApp으로 사용법도 친절히 알려 줬어요.'] }
+  ];
+  const starRow = n => `<span class="stars" role="img" aria-label="${L(`${n} de 5 estrelas`, `${n} out of 5 stars`, `별 5개 중 ${n}개`)}">${[1, 2, 3, 4, 5].map(i => `<svg width="14" height="14" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.8l-5.2 2.8 1-5.8-4.3-4.1 5.9-.8z" ${i <= n ? 'fill="currentColor"' : 'fill="none" stroke="currentColor" stroke-width="1.2"'}/></svg>`).join('')}</span>`;
+  const quotes = () => `<section class="sec rv" aria-labelledby="h-q">
+    <div class="wrap">
+      <div class="sh"><h2 id="h-q">${L('O que dizem as clientes', 'What customers say', '고객 후기')}</h2><p>${L('Avaliações de quem comprou na loja.', 'Reviews from people who bought from the shop.', '상점에서 구매한 고객의 후기입니다.')}</p></div>
+      <div class="rv-row">${REVIEWS.map(r => { const p = byId[r.prod]; return `<article class="rv-card">
+        <div class="rv-top">${starRow(r.stars)}<span class="rv-when">${tr(r.when)}</span></div>
+        <h3>${tr(r.t)}</h3>
+        <p>${tr(r.x)}</p>
+        <p class="rv-who"><b>${r.who}</b><span>${tr(r.skin)}, ${r.place}</span></p>
+        <a class="rv-prod" href="#/produto/${p.id}"><span class="th" style="background:${tile(p)}"><img src="${p.img}" alt=""></span><span><small>${esc(p.b)}</small>${esc(p.n)}</span></a>
+      </article>`; }).join('')}</div>
+    </div></section>`;
 
   const SECTIONS = { hero, brands, lab, ritual, quiz, new: newIn, story, quotes };
   const home = () => C.sections.map(s => SECTIONS[s]()).join('');
@@ -351,7 +402,7 @@
       <div class="fs-body">
         <div class="fs-grp"><label class="fs-lbl" for="q">${L('Procurar', 'Search', '검색')}</label><div class="fs-search">${I.search}<input type="search" id="q" value="${esc(shopState.q)}" placeholder="${L('Nome ou marca', 'Name or brand', '제품명 또는 브랜드')}"></div></div>
         ${has('lab') ? `<fieldset class="fs-grp"><legend class="fs-lbl">${L('Ingrediente', 'Ingredient', '성분')}</legend>
-          ${INGREDIENTS.map(x => `<label class="fs-opt"><input type="radio" name="fing" value="${x.key}" ${shopState.ing === x.key ? 'checked' : ''}><i style="--c:${COL[x.key]}"></i><span>${esc(x.t)}</span><small>${withIng(x.key).length}</small></label>`).join('')}</fieldset>` : ''}
+          ${INGREDIENTS.map(x => `<label class="fs-opt"><input type="radio" name="fing" value="${x.key}" ${shopState.ing === x.key ? 'checked' : ''}><i class="sw" style="background-image:url(assets/u-ing-${x.key}.webp)"></i><span>${esc(x.t)}</span><small>${withIng(x.key).length}</small></label>`).join('')}</fieldset>` : ''}
         <fieldset class="fs-grp"><legend class="fs-lbl">${L('Marca', 'Brand', '브랜드')}</legend>
           ${brandsList.map(b => `<label class="fs-opt"><input type="radio" name="fbrand" value="${esc(b)}" ${shopState.brand === b ? 'checked' : ''}><span>${esc(b)}</span><small>${CATALOG.filter(p => p.b === b).length}</small></label>`).join('')}</fieldset>
       </div>
@@ -613,6 +664,23 @@
     };
   };
 
+  /* ---------- Ingredient index: tabs with arrow keys ---------- */
+  const selectIng = btn => {
+    ing = btn.dataset.ing;
+    document.querySelectorAll('.ix-list [data-ing]').forEach(b => { const on = b === btn; b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1; });
+    $('#panel').setAttribute('aria-labelledby', btn.id);
+    vt(() => { $('#panel').innerHTML = panel(ing); });
+    if (matchMedia('(max-width: 960px)').matches) $('#panel').scrollIntoView({ behavior: reduce() ? 'auto' : 'smooth', block: 'nearest' });
+  };
+  document.addEventListener('keydown', e => {
+    const b = e.target.closest('.ix-list [data-ing]');
+    if (!b || !['ArrowDown', 'ArrowUp', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(e.key)) return;
+    e.preventDefault();
+    const all = [...document.querySelectorAll('.ix-list [data-ing]')], i = all.indexOf(b);
+    const next = e.key === 'Home' ? all[0] : e.key === 'End' ? all[all.length - 1] : all[(i + (['ArrowDown', 'ArrowRight'].includes(e.key) ? 1 : -1) + all.length) % all.length];
+    next.focus(); selectIng(next);
+  });
+
   /* ---------- Hero shine follows the pointer ---------- */
   const heroShine = () => {
     const svg = $('#dropSvg'), shine = $('#shine');
@@ -622,10 +690,6 @@
       shine.setAttribute('cx', Math.max(60, Math.min(340, (e.clientX - r.left) / r.width * 400)).toFixed(0));
       shine.setAttribute('cy', Math.max(120, Math.min(520, (e.clientY - r.top) / r.height * 620)).toFixed(0));
     });
-  };
-  const dishesIn = () => {
-    const d = $('#dishes'); if (!d) return;
-    new IntersectionObserver((en, o) => { if (en[0].isIntersecting) { d.classList.add('in'); o.disconnect(); } }, { threshold: .3 }).observe(d);
   };
 
   /* ---------- Day / night switch ---------- */
@@ -732,10 +796,7 @@
     const row = t.closest('[data-row]'); if (row) { const r = $('#newRow'); r.scrollBy({ left: Number(row.dataset.row) * r.clientWidth * .8, behavior: 'smooth' }); return; }
     const d = t.closest('[data-ing]');
     if (d) {
-      ing = d.dataset.ing;
-      document.querySelectorAll('[data-ing]').forEach(b => b.setAttribute('aria-pressed', b === d));
-      vt(() => { $('#panel').innerHTML = panel(ing); });
-      if (matchMedia('(max-width: 960px)').matches) $('#panel').scrollIntoView({ behavior: reduce() ? 'auto' : 'smooth', block: 'nearest' });
+      selectIng(d);
       return;
     }
     const q = t.closest('[data-qz]'); if (q) { qz[q.dataset.qz] = q.dataset.v; qz.step++; drawQuiz(true); return; }
@@ -821,7 +882,7 @@
     pq = 1;
     document.querySelectorAll('.nav a').forEach(a => { if (a.getAttribute('href') === '#/' + r.name) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
     if (r.name === 'inicio') {
-      drawQuiz(false); initRitual(); heroShine(); dishesIn();
+      drawQuiz(false); initRitual(); heroShine();
       if (first || !r.param) { document.body.classList.remove('play'); void document.body.offsetWidth; document.body.classList.add('play'); }
     } else if (ritualOff) { ritualOff(); ritualOff = null; }
     if (r.name === 'loja' && r.param === 'procurar') { const qi = $('#q'); if (qi) qi.focus(); }
