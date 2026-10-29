@@ -40,6 +40,9 @@
     prev: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>',
     next: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg>'
   };
+  I.chev = '<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>';
+  I.ig = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r=".9" fill="currentColor" stroke="none"/></svg>';
+  I.pin = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>';
   const LANG_NAMES = { pt: 'Português', en: 'English', ko: '한국어' };
 
   /* ---------- Chrome: announcement, header, menu, footer ---------- */
@@ -52,11 +55,54 @@
     ...(has('lab') ? [['#/inicio/ingredientes', L('Ingredientes', 'Ingredients', '성분')]] : []),
     ['#/sobre', L('Sobre', 'About', '소개')]
   ];
+  /* Side menu: a main panel plus sliding sub-panels for brands and ingredients */
+  const sideTop = (left) => `<div class="side-top">${left}<button class="side-x" type="button" aria-label="${L('Fechar menu', 'Close menu', '메뉴 닫기')}" data-close-menu>${I.x}</button></div>`;
+  const row = (href, label, extra = '') => `<li><a href="${href}">${extra}<span>${label}</span>${I.chev}</a></li>`;
+  const sideMenu = () => {
+    const night = time() === 'noite';
+    return `<div class="side-in">
+      <div class="side-panel side-main" id="sideMain">
+        ${sideTop(`<a class="side-logo" href="#/inicio"><img src="assets/logo-badge.png" alt=""><span>Namsan Glow</span></a>`)}
+        <nav class="side-nav" aria-label="${L('Menu', 'Menu', '메뉴')}">
+          <ul class="side-list">
+            ${row('#/loja', L('Toda a loja', 'Shop all', '전체 쇼핑'))}
+            ${row('#/inicio/ritual', L('A rotina em 5 passos', 'The 5-step routine', '5단계 루틴'))}
+            ${row('#/inicio/quiz', L('Quiz de pele', 'Skin quiz', '피부 퀴즈'))}
+            ${has('lab') ? `<li><button type="button" data-sub="sideIng" aria-controls="sideIng"><span>${L('Ingredientes', 'Ingredients', '성분')}</span>${I.chev}</button></li>` : ''}
+            <li><button type="button" data-sub="sideBrands" aria-controls="sideBrands"><span>${L('Marcas', 'Brands', '브랜드')}</span>${I.chev}</button></li>
+          </ul>
+          <p class="side-label">${L('Comprar por passo', 'Shop by step', '단계별 쇼핑')}</p>
+          <ul class="side-list">
+            ${STEPS.map(s => row('#/loja/s-' + s.n, s.t, `<i class="n">${s.n}</i>`)).join('')}
+            ${row('#/loja/m', `${L('Máscaras', 'Masks', '마스크')} <em>−15%</em>`)}
+          </ul>
+          <ul class="side-list side-gap">${row('#/sobre', L('Sobre a Namsan Glow', 'About Namsan Glow', '남산 글로우 소개'))}</ul>
+        </nav>
+        <ul class="side-util">
+          <li><a href="https://wa.me/351966700740"><span>${L('Falar por WhatsApp', 'Message us on WhatsApp', 'WhatsApp 문의')}</span>${I.wa}</a></li>
+          <li><a href="https://instagram.com/namsanglow_skincare"><span>Instagram</span>${I.ig}</a></li>
+          <li><a href="#/sobre/contactos"><span>${L('Contactos', 'Contact', '문의')}</span>${I.pin}</a></li>
+          ${C.dayNight ? `<li><button type="button" data-time-flip><span>${night ? L('Mudar para dia', 'Switch to day', '낮 모드로') : L('Mudar para noite', 'Switch to night', '밤 모드로')}</span>${night ? I.sun : I.moon}</button></li>` : ''}
+          <li class="side-lang"><span>${L('Idioma', 'Language', '언어')}</span><span class="opts-l">${NG.LANGS.map(l => `<button type="button" data-lang="${l}" lang="${l}" aria-pressed="${l === NG.lang}">${l.toUpperCase()}</button>`).join('')}</span></li>
+        </ul>
+      </div>
+      <div class="side-panel side-sub" id="sideBrands" inert>
+        ${sideTop(`<button class="side-back" type="button" data-sub-back>${I.prev}<span>${L('Marcas', 'Brands', '브랜드')}</span></button>`)}
+        <ul class="side-list side-brands">${BRANDS.map(b => `<li><a href="#/loja/b-${encodeURIComponent(b.n)}"><span>${esc(b.n)}</span><img src="${b.src}" alt="" loading="lazy"></a></li>`).join('')}</ul>
+      </div>
+      ${has('lab') ? `<div class="side-panel side-sub" id="sideIng" inert>
+        ${sideTop(`<button class="side-back" type="button" data-sub-back>${I.prev}<span>${L('Ingredientes', 'Ingredients', '성분')}</span></button>`)}
+        <ul class="side-list">${INGREDIENTS.map(x => row('#/loja/i-' + x.key, esc(x.t), `<i class="sw" style="--c:${COL[x.key]}"></i>`)).join('')}</ul>
+      </div>` : ''}
+    </div>`;
+  };
   const chrome = () => {
     $('#ann').innerHTML = L('10% na primeira encomenda com <b>WELCOME10</b>. Envio grátis a partir de 50 €.', '10% off your first order with <b>WELCOME10</b>. Free shipping over €50.', '첫 주문 10% 할인 코드 <b>WELCOME10</b>. 50유로 이상 무료 배송.');
     $('#hdr').innerHTML = `<div class="wrap hdr-in">
-      <nav class="nav" aria-label="${L('Principal', 'Main', '메인')}">${navLinks().map(([h, t]) => `<a href="${h}">${t}</a>`).join('')}</nav>
-      <button class="ic burger" type="button" aria-label="${L('Abrir menu', 'Open menu', '메뉴 열기')}" data-open-menu>${I.menu}</button>
+      <div class="h-left">
+        <button class="menu-btn" type="button" aria-label="${L('Abrir menu', 'Open menu', '메뉴 열기')}" aria-haspopup="dialog" data-open-menu>${I.menu}<span>${L('Menu', 'Menu', '메뉴')}</span></button>
+        <nav class="nav" aria-label="${L('Principal', 'Main', '메인')}">${navLinks().map(([h, t]) => `<a href="${h}">${t}</a>`).join('')}</nav>
+      </div>
       <a class="logo" href="#/inicio"><img src="assets/logo-badge.png" alt=""><span>Namsan Glow</span></a>
       <div class="tools">
         ${tsw('sm')}
@@ -67,9 +113,7 @@
       </div></div>`;
     $('#langMenu').innerHTML = NG.LANGS.map(l => `<button type="button" data-lang="${l}" lang="${l}" aria-current="${l === NG.lang}">${LANG_NAMES[l]}</button>`).join('');
     $('#mnav').setAttribute('aria-label', L('Menu', 'Menu', '메뉴'));
-    $('#mnav').innerHTML = `<button class="ic x" type="button" aria-label="${L('Fechar menu', 'Close menu', '메뉴 닫기')}" data-close-menu>${I.x}</button>
-      <nav aria-label="${L('Menu', 'Menu', '메뉴')}"><a href="#/inicio">${L('Início', 'Home', '홈')}</a>${navLinks().map(([h, t]) => `<a href="${h}">${t}</a>`).join('')}<a href="#/sobre/contactos">${L('Contactos', 'Contact', '문의')}</a></nav>
-      <div class="mrow">${tsw('big')}${NG.LANGS.map(l => `<button class="chip" type="button" data-lang="${l}" aria-pressed="${l === NG.lang}">${LANG_NAMES[l]}</button>`).join('')}</div>`;
+    $('#mnav').innerHTML = sideMenu();
     $('#ft').innerHTML = `<div class="wrap">
       <div class="ft-grid">
         <h2>${L('Cosmética coreana, escolhida em Braga.', 'Korean skincare, chosen in Braga.', '브라가에서 고른 한국 화장품.')}</h2>
@@ -276,6 +320,8 @@
     Object.assign(shopState, { ing: '', step: 0, masks: false, brand: '' });
     if (p.startsWith('i-')) shopState.ing = p.slice(2);
     else if (p.startsWith('b-')) shopState.brand = decodeURIComponent(p.slice(2));
+    else if (p.startsWith('s-')) shopState.step = Number(p.slice(2)) || 0;
+    else if (p === 'm') shopState.masks = true;
   };
   const filtered = () => {
     let list = CATALOG.filter(p =>
@@ -522,6 +568,7 @@
       try { sessionStorage.setItem(TKEY, m); } catch (e) {}
       document.querySelectorAll('button[data-time]').forEach(b => b.setAttribute('aria-pressed', b.dataset.time === m));
       if (initRitual.redraw && $('#ritual')) initRitual.redraw();
+      $('#mnav').innerHTML = sideMenu();
     };
     if (!document.startViewTransition || reduce()) { apply(); return; }
     const r = btn.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2;
@@ -553,7 +600,32 @@
       vt(() => { chrome(); app.render(); });
       return;
     }
-    if (t.closest('[data-open-menu]')) { $('#mnav').showModal(); return; }
+    if (t.closest('[data-open-menu]')) {
+      $('#mnav').querySelectorAll('.side-sub').forEach(p => { p.classList.remove('in'); p.inert = true; });
+      $('#sideMain')?.classList.remove('out');
+      $('#mnav').showModal();
+      return;
+    }
+    const sub = t.closest('[data-sub]');
+    if (sub) {
+      const p = $('#' + sub.dataset.sub);
+      $('#sideMain').classList.add('out'); $('#sideMain').inert = true;
+      p.inert = false; p.classList.add('in');
+      // preventScroll: focusing inside the off-screen panel must not scroll the clipped menu sideways
+      p.querySelector('.side-back').focus({ preventScroll: true });
+      $('#mnav .side-in').scrollLeft = 0;
+      sub.dataset.last = '1';
+      return;
+    }
+    if (t.closest('[data-sub-back]')) {
+      const p = t.closest('.side-sub');
+      p.classList.remove('in'); p.inert = true;
+      $('#sideMain').inert = false; $('#sideMain').classList.remove('out');
+      const from = $('#sideMain [data-last]'); if (from) { from.focus({ preventScroll: true }); delete from.dataset.last; }
+      return;
+    }
+    const flip = t.closest('[data-time-flip]');
+    if (flip) { $('#mnav').close(); setTime(time() === 'noite' ? 'manha' : 'noite', $('[data-open-menu]')); return; }
     if (t.closest('[data-close-menu]') || (t.closest('#mnav a'))) { $('#mnav').close(); if (!t.closest('a')) return; }
     // The product tile morphs into the product page photo
     const toProduct = t.closest('a[href^="#/produto/"]');
